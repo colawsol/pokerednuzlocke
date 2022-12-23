@@ -14,4 +14,4 @@
 ## Changelog
 * Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc.
 * Revives and Max Revives have been removed from the game.
-* Fainted Pokémon cannot be taken into the Cable Club, preventing them from being traded.
+* Fainted Pokémon cannot be taken into the Cable Club or used for in-game trades.
