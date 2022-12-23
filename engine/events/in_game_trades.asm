@@ -42,7 +42,7 @@ DoInGameTradeDialogue:
 	predef FlagActionPredef
 	ld a, c
 	and a
-	ld a, $4
+	ld a, $5
 	ld [wInGameTradeTextPointerTableIndex], a
 	jr nz, .printText
 ; if the trade hasn't been done yet
@@ -102,7 +102,16 @@ InGameTrade_DoTrade:
 	ld a, [wcf91]
 	cp b
 	ld a, $2
-	jr nz, .tradeFailed ; jump if the selected mon's species is not the required one
+	jp nz, .tradeFailed ; jump if the selected mon's species is not the required one
+	ld hl, wPartyMons ; taken from item_effects (start)
+	ld bc, wPartyMon2 - wPartyMon1
+	ld a, [wWhichPokemon]
+	call AddNTimes ; taken from item_effects (end)
+	inc hl ; hl now points to MSB of current HP
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	ld a, $3
+	jr z, .tradeFailed ; jump if Mon is fainted
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMon1Level
 	ld bc, wPartyMon2 - wPartyMon1
@@ -142,7 +151,7 @@ InGameTrade_DoTrade:
 	call InGameTrade_RestoreScreen
 	farcall RedrawMapView
 	and a
-	ld a, $3
+	ld a, $4
 	jr .tradeSucceeded
 .tradeFailed
 	scf
@@ -242,6 +251,7 @@ TradeTextPointers1:
 	dw WannaTrade1Text
 	dw NoTrade1Text
 	dw WrongMon1Text
+	dw FaintedMon1Text
 	dw Thanks1Text
 	dw AfterTrade1Text
 
@@ -249,6 +259,7 @@ TradeTextPointers2:
 	dw WannaTrade2Text
 	dw NoTrade2Text
 	dw WrongMon2Text
+	dw FaintedMon2Text
 	dw Thanks2Text
 	dw AfterTrade2Text
 
@@ -256,6 +267,7 @@ TradeTextPointers3:
 	dw WannaTrade3Text
 	dw NoTrade3Text
 	dw WrongMon3Text
+	dw FaintedMon3Text
 	dw Thanks3Text
 	dw AfterTrade3Text
 
@@ -281,6 +293,10 @@ WrongMon1Text:
 	text_far _WrongMon1Text
 	text_end
 
+FaintedMon1Text: ; data/text/text_7.asm
+	text_far _FaintedMon1Text
+	text_end
+
 Thanks1Text:
 	text_far _Thanks1Text
 	text_end
@@ -301,6 +317,10 @@ WrongMon2Text:
 	text_far _WrongMon2Text
 	text_end
 
+FaintedMon2Text: ; data/text/text_7.asm
+	text_far _FaintedMon2Text
+	text_end
+
 Thanks2Text:
 	text_far _Thanks2Text
 	text_end
@@ -319,6 +339,10 @@ NoTrade3Text:
 
 WrongMon3Text:
 	text_far _WrongMon3Text
+	text_end
+
+FaintedMon3Text:
+	text_far _FaintedMon3Text
 	text_end
 
 Thanks3Text:
