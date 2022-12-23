@@ -8,6 +8,16 @@ _CableClubNPCMakingPreparationsText::
 	cont "Please wait."
 	done
 
+_CableClubNPCFaintedMonInPartyText::
+	text "You have a fainted"
+	line "#MON in your"
+	cont "party."
+
+	para "Please deposit"
+	line "them in the PC"
+	cont "and try again."
+	done
+
 _UsedStrengthText::
 	text_ram wcd6d
 	text " used"
