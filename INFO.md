@@ -10,3 +10,6 @@
 
 ### Miscellaneous
 * Provide access to HM-compatible Pokémon to prevent being unable to progress due to available encounters.
+
+## Changelog
+* Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc.
