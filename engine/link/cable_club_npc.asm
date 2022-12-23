@@ -10,6 +10,44 @@ CableClubNPC::
 	call PrintText
 	jp .didNotConnect
 .receivedPokedex
+	ld hl, wPartySpecies ; taken from heal_party (start)
+	ld de, wPartyMon1HP
+.checkParty
+	ld a, [hli]
+	cp $ff
+	jr z, .done
+
+	push hl
+	push de
+
+	ld h, d
+	ld l, e
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	jr z, .faintedMon ; jump if Mon is fainted
+
+	pop de
+	pop hl
+
+	push hl
+	ld bc, wPartyMon2 - wPartyMon1
+	ld h, d
+	ld l, e
+	add hl, bc
+	ld d, h
+	ld e, l
+	pop hl
+	jr .checkParty ; taken from heal_party (end)
+
+.faintedMon
+	pop de ; to restore de
+	pop hl ; to restore hl
+	ld c, 60 ; taken from CableClubNPC (start)
+	call DelayFrames
+	ld hl, CableClubNPCFaintedMonInPartyText
+	call PrintText
+	jp .didNotConnect ; taken from CableClubNPC (end)
+.done
 	ld a, $1
 	ld [wMenuJoypadPollCount], a
 	ld a, 90
@@ -148,6 +186,10 @@ CableClubNPCPleaseComeAgainText:
 
 CableClubNPCMakingPreparationsText:
 	text_far _CableClubNPCMakingPreparationsText
+	text_end
+
+CableClubNPCFaintedMonInPartyText: ; data/text/text_5.asm
+	text_far _CableClubNPCFaintedMonInPartyText
 	text_end
 
 CloseLinkConnection:
