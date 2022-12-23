@@ -13,3 +13,4 @@
 
 ## Changelog
 * Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc.
+* Revives and Max Revives have been removed from the game.
