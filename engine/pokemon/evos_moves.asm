@@ -41,6 +41,14 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld a, c
 	and a ; is the mon's bit set?
 	jp z, Evolution_PartyMonLoop ; if not, go to the next mon
+	ld hl, wPartyMons ; taken from item_effects (start)
+	ld bc, wPartyMon2 - wPartyMon1
+	ld a, [wWhichPokemon]
+	call AddNTimes ; taken from item_effects (end)
+	inc hl ; hl now points to MSB of current HP
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	jr z, Evolution_PartyMonLoop ; jump if Mon is fainted
 	ld a, [wEvoOldSpecies]
 	dec a
 	ld b, 0
