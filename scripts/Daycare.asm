@@ -35,6 +35,14 @@ DayCareMText1:
 	pop af
 	ld hl, DayCareAllRightThenText
 	jp c, .done
+	ld hl, wPartyMons ; taken from item_effects (start)
+	ld bc, wPartyMon2 - wPartyMon1
+	ld a, [wWhichPokemon]
+	call AddNTimes ; taken from item_effects (end)
+	inc hl ; hl now points to MSB of current HP
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	jr z, .faintedMon ; jump if Mon is fainted
 	callfar KnowsHMMove
 	ld hl, DayCareCantAcceptMonWithHMText
 	jp c, .done
@@ -56,6 +64,9 @@ DayCareMText1:
 	ld a, [wcf91]
 	call PlayCry
 	ld hl, DayCareComeSeeMeInAWhileText
+	jp .done
+.faintedMon
+	ld hl, DayCareCantAcceptFaintedMonText
 	jp .done
 
 .daycareInUse
@@ -254,6 +265,10 @@ DayCareNoRoomForMonText:
 
 DayCareOnlyHaveOneMonText:
 	text_far _DayCareOnlyHaveOneMonText
+	text_end
+
+DayCareCantAcceptFaintedMonText: ; text/Daycare_2.asm
+	text_far _DayCareCantAcceptFaintedMonText
 	text_end
 
 DayCareCantAcceptMonWithHMText:
