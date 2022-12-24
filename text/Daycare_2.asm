@@ -17,6 +17,11 @@ _DayCareOnlyHaveOneMonText::
 	line "#MON with you."
 	done
 
+_DayCareCantAcceptFaintedMonText::
+	text "I can't accept a"
+	line "fainted #MON."
+	done
+
 _DayCareCantAcceptMonWithHMText::
 	text "I can't accept a"
 	line "#MON that"
