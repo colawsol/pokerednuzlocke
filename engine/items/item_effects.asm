@@ -1331,6 +1331,12 @@ ItemUseMedicine:
 	jp CalcStats ; recalculate stats
 .useRareCandy
 	push hl
+	push hl ; to preserve hl
+	inc hl ; hl now points to MSB of current HP
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	jp z, .faintedMon ; jump if Mon is fainted
+	pop hl ; to restore hl
 	ld bc, wPartyMon1Level - wPartyMon1
 	add hl, bc ; hl now points to level
 	ld a, [hl] ; a = level
@@ -1416,6 +1422,9 @@ ItemUseMedicine:
 	pop af
 	ld [wWhichPokemon], a
 	jp RemoveUsedItem
+.faintedMon
+	pop hl ; to restore hl
+	jp .vitaminNoEffect
 
 VitaminStatRoseText:
 	text_far _VitaminStatRoseText
