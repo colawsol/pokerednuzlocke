@@ -12,7 +12,7 @@
 * Provide access to HM-compatible Pokémon to prevent being unable to progress due to available encounters.
 
 ## Changelog
-* Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc.
+* Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc (except immediately after the first rival battle).
 * Revives and Max Revives have been removed from the game.
 * Fainted Pokémon cannot be taken into the Cable Club or used for in-game trades.
 * Rare Candies have no effect on fainted Pokémon, preventing a quirk where they can be used for revival.
