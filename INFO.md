@@ -16,3 +16,4 @@
 * Revives and Max Revives have been removed from the game.
 * Fainted Pokémon cannot be taken into the Cable Club or used for in-game trades.
 * Rare Candies have no effect on fainted Pokémon, preventing a quirk where they can be used for revival.
+* Fainted Pokémon cannot be deposited into the Daycare, as withdrawing them would restore their HP.
