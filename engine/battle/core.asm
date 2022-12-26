@@ -255,12 +255,15 @@ EnemyRan:
 	call LoadScreenTilesFromBuffer1
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
-	ld hl, WildRanText
-	jr nz, .printText
+	jr nz, .safariSetEncounter ; calls encounter-setting routine if Safari Mon flees
 ; link battle
 	xor a
 	ld [wBattleResult], a
 	ld hl, EnemyRanText
+	jr .printText
+.safariSetEncounter
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	ld hl, WildRanText
 .printText
 	call PrintText
 	ld a, SFX_RUN
@@ -790,6 +793,7 @@ FaintEnemyPokemon:
 	call WaitForSoundToFinish
 	jr .sfxplayed
 .wild_win
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
 	call EndLowHealthAlarm
 	ld a, MUSIC_DEFEATED_WILD_MON
 	call PlayBattleVictoryMusic
@@ -1493,11 +1497,14 @@ NoWillText:
 ; try to run from battle (hl = player speed, de = enemy speed)
 ; stores whether the attempt was successful in carry flag
 TryRunningFromBattle:
+	ld a, [wCurOpponent]
+	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
+	jp z, .canEscape ; jump if ghost Marowak
 	call IsGhostBattle
 	jp z, .canEscape ; jump if it's a ghost battle
 	ld a, [wBattleType]
 	cp BATTLE_TYPE_SAFARI
-	jp z, .canEscape ; jump if it's a safari battle
+	jp z, .setEncounter ; jump if it's a safari battle
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jp z, .canEscape
@@ -1521,7 +1528,7 @@ TryRunningFromBattle:
 	ld hl, hEnemySpeed
 	ld c, 2
 	call StringCmp
-	jr nc, .canEscape ; jump if player speed greater than enemy speed
+	jr nc, .setEncounter ; jump if player speed greater than enemy speed
 	xor a
 	ldh [hMultiplicand], a
 	ld a, 32
@@ -1540,13 +1547,13 @@ TryRunningFromBattle:
 	srl b
 	rr a
 	and a
-	jr z, .canEscape ; jump if enemy speed divided by 4, mod 256 is 0
+	jr z, .setEncounter ; jump if enemy speed divided by 4, mod 256 is 0
 	ldh [hDivisor], a ; ((enemy speed / 4) % 256)
 	ld b, $2
 	call Divide ; divide (player speed * 32) by ((enemy speed / 4) % 256)
 	ldh a, [hQuotient + 2]
 	and a ; is the quotient greater than 256?
-	jr nz, .canEscape ; if so, the player can escape
+	jr nz, .setEncounter ; if so, the player can escape
 	ld a, [wNumRunAttempts]
 	ld c, a
 ; add 30 to the quotient for each run attempt
@@ -1557,14 +1564,14 @@ TryRunningFromBattle:
 	ldh a, [hQuotient + 3]
 	add b
 	ldh [hQuotient + 3], a
-	jr c, .canEscape
+	jr c, .setEncounter
 	jr .loop
 .compareWithRandomValue
 	call BattleRandom
 	ld b, a
 	ldh a, [hQuotient + 3]
 	cp b
-	jr nc, .canEscape ; if the random value was less than or equal to the quotient
+	jr nc, .setEncounter ; if the random value was less than or equal to the quotient
 	                  ; plus 30 times the number of attempts, the player can escape
 ; can't escape
 	ld a, $1
@@ -1580,6 +1587,8 @@ TryRunningFromBattle:
 	call SaveScreenTilesToBuffer1
 	and a ; reset carry
 	ret
+.setEncounter ; prevents encounter-setting routine from being called if running from ghost/ghost Marowak
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
 .canEscape
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING

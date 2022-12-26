@@ -518,6 +518,8 @@ ItemUseBall:
 	ld hl, ItemUseBallText05
 	call PrintText
 
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+
 ; Add the caught Pokémon to the Pokédex.
 	predef IndexToPokedex
 	ld a, [wd11e]
@@ -1610,6 +1612,13 @@ ItemUsePokedoll:
 	ld a, [wIsInBattle]
 	dec a
 	jp nz, ItemUseNotTime
+	callfar IsGhostBattle ; check if current opponent is ghost
+	jr z, .noSetEncounter ; jump if ghost
+	ld a, [wCurOpponent]
+	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
+	jr z, .noSetEncounter ; jump if ghost Marowak
+	farcall SetEncounter
+.noSetEncounter ; prevents EncounterFlag from being set if escaping from ghost/ghost Marowak
 	ld a, $01
 	ld [wEscapedFromBattle], a
 	jp PrintItemUseTextAndRemoveItem

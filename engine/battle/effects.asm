@@ -841,7 +841,8 @@ SwitchAndTeleportEffect:
 	inc a
 	ld [wEscapedFromBattle], a
 	ld a, [wPlayerMoveNum]
-	jr .playAnimAndPrintText
+	push af ; to preserve af
+	jr .setEncounter ; calls encounter-setting routine if battle ends through use of TELEPORT/ROAR/WHIRLWIND
 .notWildBattle1
 	ld c, 50
 	call DelayFrames
@@ -883,7 +884,8 @@ SwitchAndTeleportEffect:
 	inc a
 	ld [wEscapedFromBattle], a
 	ld a, [wEnemyMoveNum]
-	jr .playAnimAndPrintText
+	push af ; to preserve af
+	jr .setEncounter ; calls encounter-setting routine if battle ends through use of TELEPORT/ROAR/WHIRLWIND
 .notWildBattle2
 	ld c, 50
 	call DelayFrames
@@ -892,7 +894,10 @@ SwitchAndTeleportEffect:
 	cp TELEPORT
 	jp nz, PrintText
 	jp ConditionalPrintButItFailed
-.playAnimAndPrintText
+.setEncounter
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	pop af ; to restore af
+.playAnimAndPrintText ; no longer used for jumps but left for clarity
 	push af
 	call PlayBattleAnimation
 	ld c, 20
