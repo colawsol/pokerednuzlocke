@@ -2292,6 +2292,11 @@ wDayCareMonOT::   ds NAME_LENGTH
 
 wDayCareMon:: box_struct wDayCareMon
 
+; bit 0: Nuzlocke state
+wNuzlockeFlags:: db
+
+wEncounterFlags:: flag_array NUM_LANDMARKS ; for logging encounters
+
 wMainDataEnd::
 
 
