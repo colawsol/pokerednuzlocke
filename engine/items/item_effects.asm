@@ -117,6 +117,11 @@ ItemUseBall:
 	dec a
 	jr z, .canUseBall
 
+	farcall HadEncounter ; check EncounterFlag for corresponding LANDMARK
+	ld a, e
+	and a
+	jp nz, HadEncounterCannotThrowBall ; jump if EncounterFlag set
+
 	ld a, [wPartyCount] ; is party full?
 	cp PARTY_LENGTH
 	jr nz, .canUseBall
@@ -517,6 +522,8 @@ ItemUseBall:
 
 	ld hl, ItemUseBallText05
 	call PrintText
+
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
 
 ; Add the caught Pokémon to the Pokédex.
 	predef IndexToPokedex
@@ -1610,6 +1617,13 @@ ItemUsePokedoll:
 	ld a, [wIsInBattle]
 	dec a
 	jp nz, ItemUseNotTime
+	callfar IsGhostBattle ; check if current opponent is ghost
+	jr z, .noSetEncounter ; jump if ghost
+	ld a, [wCurOpponent]
+	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
+	jr z, .noSetEncounter ; jump if ghost Marowak
+	farcall SetEncounter
+.noSetEncounter ; prevents EncounterFlag from being set if escaping from ghost/ghost Marowak
 	ld a, $01
 	ld [wEscapedFromBattle], a
 	jp PrintItemUseTextAndRemoveItem
@@ -2309,6 +2323,10 @@ NoCyclingAllowedHere:
 	ld hl, NoCyclingAllowedHereText
 	jr ItemUseFailed
 
+HadEncounterCannotThrowBall:
+	ld hl, HadEncounterCannotThrowBallText
+	jr ItemUseFailed
+
 BoxFullCannotThrowBall:
 	ld hl, BoxFullCannotThrowBallText
 	jr ItemUseFailed
@@ -2347,6 +2365,10 @@ NoCyclingAllowedHereText:
 
 NoSurfingHereText:
 	text_far _NoSurfingHereText
+	text_end
+
+HadEncounterCannotThrowBallText: ; data/text/text_6.asm
+	text_far _HadEncounterCannotThrowBallText
 	text_end
 
 BoxFullCannotThrowBallText:

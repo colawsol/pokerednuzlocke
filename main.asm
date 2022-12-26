@@ -74,6 +74,7 @@ INCLUDE "engine/events/hidden_objects/book_or_sculpture.asm"
 INCLUDE "engine/events/hidden_objects/elevator.asm"
 INCLUDE "engine/events/hidden_objects/town_map.asm"
 INCLUDE "engine/events/hidden_objects/pokemon_stuff.asm"
+INCLUDE "engine/nuzlocke/routines.asm"
 
 
 SECTION "Font Graphics", ROMX

@@ -191,6 +191,8 @@ SafariZoneGate_TextPointers:
 	call SafariZoneEntranceAutoWalk
 	SetEvent EVENT_IN_SAFARI_ZONE
 	ResetEventReuseHL EVENT_SAFARI_GAME_OVER
+	ld hl, wNuzlockeFlags
+	set 0, [hl] ; set Nuzlocke state
 	ld a, 3
 	ld [wSafariZoneGateCurScript], a
 	jr .done
