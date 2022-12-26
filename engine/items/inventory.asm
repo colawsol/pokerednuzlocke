@@ -51,6 +51,21 @@ AddItemToInventory_::
 	ld b, 0
 	add hl, bc ; hl = address to store the item
 	ld a, [wcf91]
+	cp POKE_BALL
+	jr z, .initialiseNuzlocke
+	cp GREAT_BALL
+	jr z, .initialiseNuzlocke
+	cp ULTRA_BALL
+	jr z, .initialiseNuzlocke
+	cp MASTER_BALL
+	jr z, .initialiseNuzlocke
+	jr .noBall ; jump if not obtaining ball
+.initialiseNuzlocke
+	push hl ; to preserve hl
+	ld hl, wNuzlockeFlags
+	set 0, [hl] ; set Nuzlocke state
+	pop hl ; to restore hl
+.noBall
 	ld [hli], a ; store item ID
 	ld a, [wItemQuantity]
 	ld [hli], a ; store item quantity
