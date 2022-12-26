@@ -224,6 +224,12 @@ _NoSurfingHereText::
 	text " here!"
 	prompt
 
+_HadEncounterCannotThrowBallText::
+	text "You've already"
+	line "encountered a"
+	cont "#MON here!"
+	prompt
+
 _BoxFullCannotThrowBallText::
 	text "The #MON BOX"
 	line "is full! Can't"

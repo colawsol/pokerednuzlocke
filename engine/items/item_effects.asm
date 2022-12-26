@@ -117,6 +117,11 @@ ItemUseBall:
 	dec a
 	jr z, .canUseBall
 
+	farcall HadEncounter ; check EncounterFlag for corresponding LANDMARK
+	ld a, e
+	and a
+	jp nz, HadEncounterCannotThrowBall ; jump if EncounterFlag set
+
 	ld a, [wPartyCount] ; is party full?
 	cp PARTY_LENGTH
 	jr nz, .canUseBall
@@ -2318,6 +2323,10 @@ NoCyclingAllowedHere:
 	ld hl, NoCyclingAllowedHereText
 	jr ItemUseFailed
 
+HadEncounterCannotThrowBall:
+	ld hl, HadEncounterCannotThrowBallText
+	jr ItemUseFailed
+
 BoxFullCannotThrowBall:
 	ld hl, BoxFullCannotThrowBallText
 	jr ItemUseFailed
@@ -2356,6 +2365,10 @@ NoCyclingAllowedHereText:
 
 NoSurfingHereText:
 	text_far _NoSurfingHereText
+	text_end
+
+HadEncounterCannotThrowBallText: ; data/text/text_6.asm
+	text_far _HadEncounterCannotThrowBallText
 	text_end
 
 BoxFullCannotThrowBallText:
