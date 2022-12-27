@@ -188,6 +188,8 @@ ItemUseBall:
 ; Loop until an acceptable number is found.
 
 .loop
+	ld hl, wNuzlockeFlags
+	set 1, [hl] ; set bit for throwing Ball
 	call Random
 	ld b, a
 
@@ -518,12 +520,15 @@ ItemUseBall:
 	ld [wd11e], a
 	ld a, [wBattleType]
 	dec a ; is this the old man battle?
-	jr z, .oldManCaughtMon ; if so, don't give the player the caught Pokémon
+	jp z, .oldManCaughtMon ; if so, don't give the player the caught Pokémon
 
 	ld hl, ItemUseBallText05
 	call PrintText
 
+	ld hl, wNuzlockeFlags
+	res 1, [hl] ; clear bit for throwing Ball
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 
 ; Add the caught Pokémon to the Pokédex.
 	predef IndexToPokedex
@@ -1622,7 +1627,17 @@ ItemUsePokedoll:
 	ld a, [wCurOpponent]
 	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
 	jr z, .noSetEncounter ; jump if ghost Marowak
-	farcall SetEncounter
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .setEncounter ; jump if EvolutionFlag clear
+	ld hl, wNuzlockeFlags
+	bit 1, [hl] ; check if threw Ball
+	res 1, [hl] ; clear bit
+	jr nz, .setEncounter ; jump if threw Ball
+	jr .noSetEncounter
+.setEncounter
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
 .noSetEncounter ; prevents EncounterFlag from being set if escaping from ghost/ghost Marowak
 	ld a, $01
 	ld [wEscapedFromBattle], a
