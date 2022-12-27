@@ -2297,6 +2297,8 @@ wNuzlockeFlags:: db
 
 wEncounterFlags:: flag_array NUM_LANDMARKS ; for logging encounters
 
+wEvolutionFlags:: flag_array NUM_EVOLUTIONS ; for logging evolutions
+
 wMainDataEnd::
 
 
