@@ -255,14 +255,25 @@ EnemyRan:
 	call LoadScreenTilesFromBuffer1
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
-	jr nz, .safariSetEncounter ; calls encounter-setting routine if Safari Mon flees
+	jr nz, .checkSafariEncounter
 ; link battle
 	xor a
 	ld [wBattleResult], a
 	ld hl, EnemyRanText
 	jr .printText
-.safariSetEncounter
+.checkSafariEncounter
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .setEncounter ; jump if EvolutionFlag clear
+	ld hl, wNuzlockeFlags
+	bit 1, [hl] ; check if threw Ball
+	res 1, [hl] ; clear bit
+	jr nz, .setEncounter ; jump if threw Ball
+	jr .skipEncounter
+.setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+.skipEncounter
 	ld hl, WildRanText
 .printText
 	call PrintText
@@ -793,7 +804,18 @@ FaintEnemyPokemon:
 	call WaitForSoundToFinish
 	jr .sfxplayed
 .wild_win
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .setEncounter ; jump if EvolutionFlag clear
+	ld hl, wNuzlockeFlags
+	bit 1, [hl] ; check if threw Ball
+	res 1, [hl] ; clear bit
+	jr nz, .setEncounter ; jump if threw Ball
+	jr .skipEncounter
+.setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+.skipEncounter
 	call EndLowHealthAlarm
 	ld a, MUSIC_DEFEATED_WILD_MON
 	call PlayBattleVictoryMusic
@@ -1504,7 +1526,7 @@ TryRunningFromBattle:
 	jp z, .canEscape ; jump if it's a ghost battle
 	ld a, [wBattleType]
 	cp BATTLE_TYPE_SAFARI
-	jp z, .setEncounter ; jump if it's a safari battle
+	jp z, .checkEncounter ; jump if it's a safari battle
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jp z, .canEscape
@@ -1528,7 +1550,7 @@ TryRunningFromBattle:
 	ld hl, hEnemySpeed
 	ld c, 2
 	call StringCmp
-	jr nc, .setEncounter ; jump if player speed greater than enemy speed
+	jr nc, .checkEncounter ; jump if player speed greater than enemy speed
 	xor a
 	ldh [hMultiplicand], a
 	ld a, 32
@@ -1547,13 +1569,13 @@ TryRunningFromBattle:
 	srl b
 	rr a
 	and a
-	jr z, .setEncounter ; jump if enemy speed divided by 4, mod 256 is 0
+	jr z, .checkEncounter ; jump if enemy speed divided by 4, mod 256 is 0
 	ldh [hDivisor], a ; ((enemy speed / 4) % 256)
 	ld b, $2
 	call Divide ; divide (player speed * 32) by ((enemy speed / 4) % 256)
 	ldh a, [hQuotient + 2]
 	and a ; is the quotient greater than 256?
-	jr nz, .setEncounter ; if so, the player can escape
+	jr nz, .checkEncounter ; if so, the player can escape
 	ld a, [wNumRunAttempts]
 	ld c, a
 ; add 30 to the quotient for each run attempt
@@ -1564,14 +1586,14 @@ TryRunningFromBattle:
 	ldh a, [hQuotient + 3]
 	add b
 	ldh [hQuotient + 3], a
-	jr c, .setEncounter
+	jr c, .checkEncounter
 	jr .loop
 .compareWithRandomValue
 	call BattleRandom
 	ld b, a
 	ldh a, [hQuotient + 3]
 	cp b
-	jr nc, .setEncounter ; if the random value was less than or equal to the quotient
+	jr nc, .checkEncounter ; if the random value was less than or equal to the quotient
 	                  ; plus 30 times the number of attempts, the player can escape
 ; can't escape
 	ld a, $1
@@ -1587,7 +1609,17 @@ TryRunningFromBattle:
 	call SaveScreenTilesToBuffer1
 	and a ; reset carry
 	ret
-.setEncounter ; prevents encounter-setting routine from being called if running from ghost/ghost Marowak
+.checkEncounter ; prevents encounter-setting routine from being called if running from ghost/ghost Marowak
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .setEncounter ; jump if EvolutionFlag clear
+	ld hl, wNuzlockeFlags
+	bit 1, [hl] ; check if threw Ball
+	res 1, [hl] ; clear bit
+	jr nz, .setEncounter ; jump if threw Ball
+	jr .canEscape
+.setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
 .canEscape
 	ld a, [wLinkState]

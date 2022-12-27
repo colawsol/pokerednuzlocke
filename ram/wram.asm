@@ -2293,6 +2293,7 @@ wDayCareMonOT::   ds NAME_LENGTH
 wDayCareMon:: box_struct wDayCareMon
 
 ; bit 0: Nuzlocke state
+; bit 1: threw Ball at encounter
 wNuzlockeFlags:: db
 
 wEncounterFlags:: flag_array NUM_LANDMARKS ; for logging encounters
