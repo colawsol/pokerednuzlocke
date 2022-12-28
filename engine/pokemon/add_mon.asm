@@ -37,7 +37,14 @@ _AddPartyMon::
 	call SkipFixedLengthTextEntries
 	ld d, h
 	ld e, l
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyOT ; jump if adding BUDDY
 	ld hl, wPlayerName
+	jr .notBuddyOT
+.buddyOT
+	ld hl, Buddy_TrainerString ; SAILOR
+.notBuddyOT
 	ld bc, NAME_LENGTH
 	call CopyData
 	ld a, [wMonDataLocation]
@@ -129,11 +136,21 @@ _AddPartyMon::
 	xor a
 	ld b, a
 	call CalcStat      ; calc HP stat (set cur Hp to max HP)
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyHP ; jump if adding BUDDY
 	ldh a, [hMultiplicand+1]
 	ld [de], a
 	inc de
 	ldh a, [hMultiplicand+2]
 	ld [de], a
+	jr .notBuddyHP
+.buddyHP
+	ld a, $00
+	ld [de], a ; set MSB of wPartyMon*HP to 0
+	inc de
+	ld [de], a ; set LSB of wPartyMon*HP to 0
+.notBuddyHP
 	inc de
 	xor a
 	ld [de], a         ; box level
@@ -192,12 +209,23 @@ _AddPartyMon::
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves
 	pop de
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyID ; jump if adding BUDDY
 	ld a, [wPlayerID]  ; set trainer ID to player ID
 	inc de
 	ld [de], a
 	ld a, [wPlayerID + 1]
 	inc de
 	ld [de], a
+	jr .notBuddyID
+.buddyID
+	call Random ; generate random number for ID
+	inc de
+	ld [de], a ; set MSB of wPlayerID
+	inc de
+	ld [de], a ; set LSB of wPlayerID
+.notBuddyID
 	push de
 	ld a, [wCurEnemyLVL]
 	ld d, a
@@ -244,6 +272,9 @@ _AddPartyMon::
 .done
 	scf
 	ret
+
+Buddy_TrainerString:
+	db "SAILOR@@@@@"
 
 LoadMovePPs:
 	call GetPredefRegisters

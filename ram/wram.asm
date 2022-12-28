@@ -2294,6 +2294,8 @@ wDayCareMon:: box_struct wDayCareMon
 
 ; bit 0: Nuzlocke state
 ; bit 1: threw Ball at encounter
+; bit 2: received BUDDY
+; bit 3: adding BUDDY to party/PC
 wNuzlockeFlags:: db
 
 wEncounterFlags:: flag_array NUM_LANDMARKS ; for logging encounters

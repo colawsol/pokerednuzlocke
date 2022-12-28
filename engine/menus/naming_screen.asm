@@ -1,6 +1,9 @@
 AskName:
 	call SaveScreenTilesToBuffer1
 	call GetPredefRegisters
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyName ; jump if adding BUDDY
 	push hl
 	ld a, [wIsInBattle]
 	dec a
@@ -46,6 +49,12 @@ AskName:
 	ld d, h
 	ld e, l
 	ld hl, wcd6d
+	ld bc, NAME_LENGTH
+	jp CopyData
+.buddyName
+	ld d, h
+	ld e, l
+	ld hl, BuddyNameString ; BUDDY
 	ld bc, NAME_LENGTH
 	jp CopyData
 
@@ -480,6 +489,9 @@ PrintNamingText:
 	ld de, NameTextString
 .placeString
 	jp PlaceString
+
+BuddyNameString:
+	db "BUDDY@@@@@"
 
 YourTextString:
 	db "YOUR @"
