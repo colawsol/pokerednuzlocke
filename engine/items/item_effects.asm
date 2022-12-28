@@ -2732,7 +2732,14 @@ SendNewMonToBox:
 	dec b
 	jr nz, .loop2
 .skip
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyOT ; jump if adding BUDDY
 	ld hl, wPlayerName
+	jr .notBuddyOT
+.buddyOT
+	ld hl, Buddy_TrainerString ; SAILOR
+.notBuddyOT
 	ld de, wBoxMonOT
 	ld bc, NAME_LENGTH
 	call CopyData
@@ -2802,16 +2809,34 @@ SendNewMonToBox:
 .skip3
 	ld a, [wEnemyMonLevel]
 	ld [wEnemyMonBoxLevel], a
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr z, .notBuddy ; jump if not adding BUDDY
+	ld a, $00
+	ld hl, wEnemyMonHP
+	ld [hli], a ; set MSB of wEnemyMonHP to 0
+	ld [hl], a ; set LSB of wEnemyMonHP to 0
+.notBuddy
 	ld hl, wEnemyMon
 	ld de, wBoxMon1
 	ld bc, wEnemyMonDVs - wEnemyMon
 	call CopyData
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyID ; jump if adding BUDDY
 	ld hl, wPlayerID
 	ld a, [hli]
 	ld [de], a
 	inc de
 	ld a, [hl]
 	ld [de], a
+	jr .notBuddyID
+.buddyID
+	call Random ; generate random number for ID
+	ld [de], a ; set MSB of wPlayerID
+	inc de
+	ld [de], a ; set LSB of wPlayerID
+.notBuddyID
 	inc de
 	push de
 	ld a, [wCurEnemyLVL]
