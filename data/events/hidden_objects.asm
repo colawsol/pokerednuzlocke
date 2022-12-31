@@ -482,7 +482,7 @@ SafariZoneEntranceHiddenObjects:
 	db -1 ; end
 
 SafariZoneWestHiddenObjects:
-	hidden_object  6,  5, REVIVE, HiddenItems
+	hidden_object  6,  5, SUPER_POTION, HiddenItems
 	db -1 ; end
 
 SilphCo5FHiddenObjects:
@@ -528,7 +528,7 @@ Mansion2HiddenObjects:
 	db -1 ; end
 
 Mansion3HiddenObjects:
-	hidden_object  1,  9, MAX_REVIVE, HiddenItems
+	hidden_object  1,  9, HYPER_POTION, HiddenItems
 	hidden_object 10,  5, SPRITE_FACING_UP, Mansion3Script_Switches
 	db -1 ; end
 
@@ -633,7 +633,7 @@ Route17HiddenObjects:
 	hidden_object 15,  14, RARE_CANDY, HiddenItems
 	hidden_object  8,  45, FULL_RESTORE, HiddenItems
 	hidden_object 17,  72, PP_UP, HiddenItems
-	hidden_object  4,  91, MAX_REVIVE, HiddenItems
+	hidden_object  4,  91, HYPER_POTION, HiddenItems
 	hidden_object  8, 121, MAX_ELIXER, HiddenItems
 	db -1 ; end
 

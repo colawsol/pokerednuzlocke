@@ -1,5 +1,5 @@
-HealParty:
-; Restore HP and PP.
+RivalHeal:
+; Copy of original HealParty to restore HP and PP following first RIVAL battle.
 
 	ld hl, wPartySpecies
 	ld de, wPartyMon1HP
@@ -10,12 +10,6 @@ HealParty:
 
 	push hl
 	push de
-
-	ld h, d
-	ld l, e
-	ld a, [hli]
-	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
-	jr z, .faintedMon ; jump if Mon is fainted
 
 	ld hl, wPartyMon1Status - wPartyMon1HP
 	add hl, de
@@ -74,7 +68,6 @@ HealParty:
 	ld a, [hl]
 	ld [de], a
 
-.faintedMon
 	pop de
 	pop hl
 

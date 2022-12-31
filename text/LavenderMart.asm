@@ -15,9 +15,12 @@ _LavenderMartText2::
 	done
 
 _LavenderMartReviveText::
-	text "You know REVIVE?"
-	line "It revives any"
-	cont "fainted #MON!"
+	text "I heard a rumor"
+	line "about an item"
+	cont "that could revive"
+	cont "fainted #MON,"
+	cont "but surely there"
+	cont "is no such thing."
 	done
 
 _LavenderMartNuggetText::

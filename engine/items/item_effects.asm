@@ -117,6 +117,11 @@ ItemUseBall:
 	dec a
 	jr z, .canUseBall
 
+	farcall HadEncounter ; check EncounterFlag for corresponding LANDMARK
+	ld a, e
+	and a
+	jp nz, HadEncounterCannotThrowBall ; jump if EncounterFlag set
+
 	ld a, [wPartyCount] ; is party full?
 	cp PARTY_LENGTH
 	jr nz, .canUseBall
@@ -183,6 +188,8 @@ ItemUseBall:
 ; Loop until an acceptable number is found.
 
 .loop
+	ld hl, wNuzlockeFlags
+	set 1, [hl] ; set bit for throwing Ball
 	call Random
 	ld b, a
 
@@ -513,10 +520,15 @@ ItemUseBall:
 	ld [wd11e], a
 	ld a, [wBattleType]
 	dec a ; is this the old man battle?
-	jr z, .oldManCaughtMon ; if so, don't give the player the caught Pokémon
+	jp z, .oldManCaughtMon ; if so, don't give the player the caught Pokémon
 
 	ld hl, ItemUseBallText05
 	call PrintText
+
+	ld hl, wNuzlockeFlags
+	res 1, [hl] ; clear bit for throwing Ball
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 
 ; Add the caught Pokémon to the Pokédex.
 	predef IndexToPokedex
@@ -1331,6 +1343,12 @@ ItemUseMedicine:
 	jp CalcStats ; recalculate stats
 .useRareCandy
 	push hl
+	push hl ; to preserve hl
+	inc hl ; hl now points to MSB of current HP
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	jp z, .faintedMon ; jump if Mon is fainted
+	pop hl ; to restore hl
 	ld bc, wPartyMon1Level - wPartyMon1
 	add hl, bc ; hl now points to level
 	ld a, [hl] ; a = level
@@ -1416,6 +1434,9 @@ ItemUseMedicine:
 	pop af
 	ld [wWhichPokemon], a
 	jp RemoveUsedItem
+.faintedMon
+	pop hl ; to restore hl
+	jp .vitaminNoEffect
 
 VitaminStatRoseText:
 	text_far _VitaminStatRoseText
@@ -1601,6 +1622,23 @@ ItemUsePokedoll:
 	ld a, [wIsInBattle]
 	dec a
 	jp nz, ItemUseNotTime
+	callfar IsGhostBattle ; check if current opponent is ghost
+	jr z, .noSetEncounter ; jump if ghost
+	ld a, [wCurOpponent]
+	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
+	jr z, .noSetEncounter ; jump if ghost Marowak
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .setEncounter ; jump if EvolutionFlag clear
+	ld hl, wNuzlockeFlags
+	bit 1, [hl] ; check if threw Ball
+	res 1, [hl] ; clear bit
+	jr nz, .setEncounter ; jump if threw Ball
+	jr .noSetEncounter
+.setEncounter
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+.noSetEncounter ; prevents EncounterFlag from being set if escaping from ghost/ghost Marowak
 	ld a, $01
 	ld [wEscapedFromBattle], a
 	jp PrintItemUseTextAndRemoveItem
@@ -2300,6 +2338,10 @@ NoCyclingAllowedHere:
 	ld hl, NoCyclingAllowedHereText
 	jr ItemUseFailed
 
+HadEncounterCannotThrowBall:
+	ld hl, HadEncounterCannotThrowBallText
+	jr ItemUseFailed
+
 BoxFullCannotThrowBall:
 	ld hl, BoxFullCannotThrowBallText
 	jr ItemUseFailed
@@ -2338,6 +2380,10 @@ NoCyclingAllowedHereText:
 
 NoSurfingHereText:
 	text_far _NoSurfingHereText
+	text_end
+
+HadEncounterCannotThrowBallText: ; data/text/text_6.asm
+	text_far _HadEncounterCannotThrowBallText
 	text_end
 
 BoxFullCannotThrowBallText:
@@ -2686,7 +2732,14 @@ SendNewMonToBox:
 	dec b
 	jr nz, .loop2
 .skip
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyOT ; jump if adding BUDDY
 	ld hl, wPlayerName
+	jr .notBuddyOT
+.buddyOT
+	ld hl, Buddy_TrainerString ; SAILOR
+.notBuddyOT
 	ld de, wBoxMonOT
 	ld bc, NAME_LENGTH
 	call CopyData
@@ -2756,16 +2809,34 @@ SendNewMonToBox:
 .skip3
 	ld a, [wEnemyMonLevel]
 	ld [wEnemyMonBoxLevel], a
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr z, .notBuddy ; jump if not adding BUDDY
+	ld a, $00
+	ld hl, wEnemyMonHP
+	ld [hli], a ; set MSB of wEnemyMonHP to 0
+	ld [hl], a ; set LSB of wEnemyMonHP to 0
+.notBuddy
 	ld hl, wEnemyMon
 	ld de, wBoxMon1
 	ld bc, wEnemyMonDVs - wEnemyMon
 	call CopyData
+	ld a, [wNuzlockeFlags]
+	bit 3, a ; check if adding BUDDY
+	jr nz, .buddyID ; jump if adding BUDDY
 	ld hl, wPlayerID
 	ld a, [hli]
 	ld [de], a
 	inc de
 	ld a, [hl]
 	ld [de], a
+	jr .notBuddyID
+.buddyID
+	call Random ; generate random number for ID
+	ld [de], a ; set MSB of wPlayerID
+	inc de
+	ld [de], a ; set LSB of wPlayerID
+.notBuddyID
 	inc de
 	push de
 	ld a, [wCurEnemyLVL]

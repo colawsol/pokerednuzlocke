@@ -95,6 +95,14 @@ _WrongMon1Text::
 	line "come back here!"
 	done
 
+_FaintedMon1Text::
+	text "Hey! That #MON"
+	line "is fainted!"
+
+	para "I'm not trading for"
+	line "that!"
+	done
+
 _Thanks1Text::
 	text "Hey thanks!"
 	done
@@ -131,6 +139,14 @@ _WrongMon2Text::
 
 	para "Think of me when"
 	line "you get one."
+	done
+
+_FaintedMon2Text::
+	text "That #MON is"
+	line "fainted."
+
+	para "I'm afraid I can't"
+	line "accept that."
 	done
 
 _Thanks2Text::
@@ -170,6 +186,14 @@ _WrongMon3Text::
 
 	para "If you get one,"
 	line "trade it with me!"
+	done
+
+_FaintedMon3Text::
+	text "Wait, that #MON"
+	line "is fainted."
+
+	para "I will only trade"
+	line "for a healthy one."
 	done
 
 _Thanks3Text::

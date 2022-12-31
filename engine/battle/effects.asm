@@ -841,7 +841,8 @@ SwitchAndTeleportEffect:
 	inc a
 	ld [wEscapedFromBattle], a
 	ld a, [wPlayerMoveNum]
-	jr .playAnimAndPrintText
+	push af ; to preserve af
+	jr .checkEncounter
 .notWildBattle1
 	ld c, 50
 	call DelayFrames
@@ -883,7 +884,8 @@ SwitchAndTeleportEffect:
 	inc a
 	ld [wEscapedFromBattle], a
 	ld a, [wEnemyMoveNum]
-	jr .playAnimAndPrintText
+	push af ; to preserve af
+	jr .checkEncounter
 .notWildBattle2
 	ld c, 50
 	call DelayFrames
@@ -892,7 +894,21 @@ SwitchAndTeleportEffect:
 	cp TELEPORT
 	jp nz, PrintText
 	jp ConditionalPrintButItFailed
-.playAnimAndPrintText
+.checkEncounter
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .setEncounter ; jump if EvolutionFlag clear
+	ld hl, wNuzlockeFlags
+	bit 1, [hl] ; check if threw Ball
+	res 1, [hl] ; clear bit
+	jr nz, .setEncounter ; jump if threw Ball
+	jr .skipEncounter
+.setEncounter
+	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+.skipEncounter
+	pop af ; to restore af
+.playAnimAndPrintText ; no longer used for jumps but left for clarity
 	push af
 	call PlayBattleAnimation
 	ld c, 20
