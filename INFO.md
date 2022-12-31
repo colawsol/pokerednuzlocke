@@ -1,16 +1,5 @@
 # Info
 
-## To Do
-
-### Permadeath
-* Prevent fainted Pokémon from being revived in all circumstances.
-
-### Encounters
-* Only allow first encounter in each area to be caught.
-
-### Miscellaneous
-* Provide access to HM-compatible Pokémon to prevent being unable to progress due to available encounters.
-
 ## Changelog
 * Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc (except immediately after the first rival battle).
 * Revives and Max Revives have been removed from the game.
@@ -22,3 +11,11 @@
 	* Encounters are logged when a wild Pokémon is fainted, captured or escaped from (either by running or using a Poké Doll, unless escaping from a ghost or ghost Marowak); when an encounter ends through either party using Teleport, Roar or Whirlwind; and when a wild Pokémon flees from the player (i.e. in the Safari Zone).
 	* Duplicates clause has been implemented, allowing the first encounter in an area to be re-rolled if a Pokémon of the same evolution line has already been caught and no attempt was made to catch the duplicate.
 * Provided access to HM-compatible Pokémon as a gift in Vermilion Pokémon Center to prevent being unable to progress due to available encounters.
+
+## To Do
+
+### Permadeath
+* Test extensively for edge-cases in which fainted Pokémon can be revived.
+
+### Encounters
+* Test extensively for edge-cases in which encounter-setting/checking routines should be implemented.
