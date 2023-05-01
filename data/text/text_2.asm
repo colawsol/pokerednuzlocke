@@ -1752,13 +1752,12 @@ _OakSpeechText3::
 	cont "awaits! Let's go!"
 	done
 
-_DoYouWantToNicknameText::
-	text "Do you want to"
-	line "give a nickname"
-	cont "to @"
+_GiveANicknameText::
+	text "Give a nickname"
+	line "to @"
 	text_ram wcd6d
-	text "?"
-	done
+	text "!"
+	prompt
 
 _YourNameIsText::
 	text "Right! So your"

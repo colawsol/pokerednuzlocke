@@ -14,17 +14,9 @@ AskName:
 	ld a, [wcf91]
 	ld [wd11e], a
 	call GetMonName
-	ld hl, DoYouWantToNicknameText
+	ld hl, GiveANicknameText ; changed for clarity
 	call PrintText
-	hlcoord 14, 7
-	lb bc, 8, 15
-	ld a, TWO_OPTION_MENU
-	ld [wTextBoxID], a
-	call DisplayTextBoxID
 	pop hl
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .declinedNickname
 	ld a, [wUpdateSpritesEnabled]
 	push af
 	xor a
@@ -58,8 +50,8 @@ AskName:
 	ld bc, NAME_LENGTH
 	jp CopyData
 
-DoYouWantToNicknameText:
-	text_far _DoYouWantToNicknameText
+GiveANicknameText: ; data/text/text_2.asm
+	text_far _GiveANicknameText
 	text_end
 
 DisplayNameRaterScreen::
@@ -92,6 +84,10 @@ DisplayNameRaterScreen::
 
 DisplayNamingScreen:
 	push hl
+	jr .firstInstance
+.namingLoop ; prevents stack from growing, causing delay after nicknaming Mon
+	pop hl ; to restore stack (hl is immediately overwritten by next command)
+.firstInstance
 	ld hl, wd730
 	set 6, [hl]
 	call GBPalWhiteOutWithDelay3
@@ -212,6 +208,13 @@ DisplayNamingScreen:
 	ret
 
 .pressedStart
+	ld a, [wCurMap]
+	cp NAME_RATERS_HOUSE ; check if using Name Rater
+	jr z, .usingNameRater ; jump if using Name Rater
+	ld a, [wStringBuffer]
+	cp "@" ; check if nickname entered
+	jp z, .namingLoop ; jump if no nickname entered
+.usingNameRater
 	ld a, 1
 	ld [wNamingScreenSubmitName], a
 	ret
