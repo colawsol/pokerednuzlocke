@@ -208,9 +208,13 @@ DisplayNamingScreen:
 	ret
 
 .pressedStart
+	ld a, [wCurMap]
+	cp NAME_RATERS_HOUSE ; check if using Name Rater
+	jr z, .usingNameRater ; jump if using Name Rater
 	ld a, [wStringBuffer]
 	cp "@" ; check if nickname entered
 	jp z, .namingLoop ; jump if no nickname entered
+.usingNameRater
 	ld a, 1
 	ld [wNamingScreenSubmitName], a
 	ret
