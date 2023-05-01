@@ -14,6 +14,9 @@
 
 ## To Do
 
+### Miscellaneous
+* Enforce nicknaming of acquired Pokémon.
+
 ### Permadeath
 * Test extensively for edge-cases in which fainted Pokémon can be revived.
 
