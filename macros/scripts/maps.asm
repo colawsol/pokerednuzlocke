@@ -117,6 +117,7 @@ ENDM
 ;\2 map id
 ;\3 tileset
 ;\4 connections: combo of NORTH, SOUTH, WEST, and/or EAST, or 0 for none
+;\5 LANDMARK
 MACRO map_header
 	DEF CURRENT_MAP_WIDTH = \2_WIDTH
 	DEF CURRENT_MAP_HEIGHT = \2_HEIGHT
@@ -128,6 +129,7 @@ MACRO map_header
 	dw \1_TextPointers
 	dw \1_Script
 	db \4
+	db \5
 ENDM
 
 ; Comes after map_header and connection macros
