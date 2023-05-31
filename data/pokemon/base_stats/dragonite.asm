@@ -22,4 +22,6 @@
 	     SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_DRAGONITE
+
 	db 0 ; padding

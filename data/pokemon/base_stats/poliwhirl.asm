@@ -22,4 +22,6 @@
 	     SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_POLIWRATH
+
 	db 0 ; padding

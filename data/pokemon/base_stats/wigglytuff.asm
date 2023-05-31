@@ -23,4 +23,6 @@
 	     SUBSTITUTE,   STRENGTH,     FLASH
 	; end
 
+	db EVOLUTION_WIGGLYTUFF
+
 	db 0 ; padding

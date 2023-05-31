@@ -17,4 +17,6 @@
 	tmhm
 	; end
 
+	db EVOLUTION_DITTO
+
 	db 0 ; padding

@@ -21,4 +21,6 @@
 	     REST,         SUBSTITUTE,   SURF
 	; end
 
+	db EVOLUTION_KABUTOPS
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     THUNDER_WAVE, SUBSTITUTE,   FLASH
 	; end
 
+	db EVOLUTION_EEVEE
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     REST,         EXPLOSION,    TRI_ATTACK,   SUBSTITUTE,   SURF
 	; end
 
+	db EVOLUTION_CLOYSTER
+
 	db 0 ; padding

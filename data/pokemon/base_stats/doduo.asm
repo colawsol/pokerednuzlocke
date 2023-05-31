@@ -20,4 +20,6 @@
 	     FLY
 	; end
 
+	db EVOLUTION_DODRIO
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     SUBSTITUTE,   FLY
 	; end
 
+	db EVOLUTION_MOLTRES
+
 	db 0 ; padding

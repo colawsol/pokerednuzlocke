@@ -19,4 +19,6 @@
 	     FIRE_BLAST,   SWIFT,        SKULL_BASH,   REST,         SUBSTITUTE
 	; end
 
+	db EVOLUTION_NINETALES
+
 	db 0 ; padding

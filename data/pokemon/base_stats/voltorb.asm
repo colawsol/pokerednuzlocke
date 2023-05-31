@@ -20,4 +20,6 @@
 	     SUBSTITUTE,   FLASH
 	; end
 
+	db EVOLUTION_ELECTRODE
+
 	db 0 ; padding

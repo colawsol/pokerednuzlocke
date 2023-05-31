@@ -24,4 +24,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_SLOWBRO
+
 	db 0 ; padding

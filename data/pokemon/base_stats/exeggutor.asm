@@ -20,4 +20,6 @@
 	     REST,         PSYWAVE,      EXPLOSION,    SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_EXEGGUTOR
+
 	db 0 ; padding

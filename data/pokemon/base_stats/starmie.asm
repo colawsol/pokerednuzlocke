@@ -22,4 +22,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_STARMIE
+
 	db 0 ; padding

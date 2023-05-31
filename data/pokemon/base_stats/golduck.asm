@@ -22,4 +22,6 @@
 	     STRENGTH
 	; end
 
+	db EVOLUTION_GOLDUCK
+
 	db 0 ; padding

@@ -22,4 +22,6 @@
 	     SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_GENGAR
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     SWIFT,        REST,         PSYWAVE,      SUBSTITUTE
 	; end
 
+	db EVOLUTION_VENOMOTH
+
 	db 0 ; padding

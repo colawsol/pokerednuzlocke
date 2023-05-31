@@ -23,4 +23,6 @@
 	     SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_RHYDON
+
 	db 0 ; padding

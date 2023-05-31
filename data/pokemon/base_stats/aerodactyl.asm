@@ -20,4 +20,6 @@
 	     REST,         SUBSTITUTE,   FLY
 	; end
 
+	db EVOLUTION_AERODACTYL
+
 	db 0 ; padding

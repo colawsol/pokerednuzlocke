@@ -20,4 +20,6 @@
 	     STRENGTH
 	; end
 
+	db EVOLUTION_PINSIR
+
 	db 0 ; padding

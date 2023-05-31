@@ -21,4 +21,6 @@
 	     PSYWAVE,      TRI_ATTACK,   SUBSTITUTE,   SURF,         FLASH
 	; end
 
+	db EVOLUTION_STARMIE
+
 	db 0 ; padding

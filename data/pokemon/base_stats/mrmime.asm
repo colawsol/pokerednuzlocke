@@ -22,4 +22,6 @@
 	     SUBSTITUTE,   FLASH
 	; end
 
+	db EVOLUTION_MR_MIME
+
 	db 0 ; padding

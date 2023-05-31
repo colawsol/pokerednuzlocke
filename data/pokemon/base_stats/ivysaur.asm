@@ -19,4 +19,6 @@
 	     REFLECT,      BIDE,         REST,         SUBSTITUTE,   CUT
 	; end
 
+	db EVOLUTION_VENUSAUR
+
 	db 0 ; padding

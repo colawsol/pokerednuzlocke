@@ -20,4 +20,6 @@
 	     REST,         SUBSTITUTE,   SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_DEWGONG
+
 	db 0 ; padding

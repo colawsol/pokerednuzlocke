@@ -21,4 +21,6 @@
 	     CUT,          STRENGTH
 	; end
 
+	db EVOLUTION_SANDSLASH
+
 	db 0 ; padding

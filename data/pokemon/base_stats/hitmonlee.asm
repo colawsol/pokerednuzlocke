@@ -20,4 +20,6 @@
 	     SKULL_BASH,   REST,         SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_HITMONLEE
+
 	db 0 ; padding

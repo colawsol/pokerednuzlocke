@@ -21,4 +21,6 @@
 	     PSYWAVE,      SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_MAGMAR
+
 	db 0 ; padding

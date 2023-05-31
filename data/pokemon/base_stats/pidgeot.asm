@@ -20,4 +20,6 @@
 	     FLY
 	; end
 
+	db EVOLUTION_PIDGEOT
+
 	db 0 ; padding

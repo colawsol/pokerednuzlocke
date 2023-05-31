@@ -6156,6 +6156,8 @@ LoadEnemyMonData:
 	ld [wEnemyMonSpecies], a
 	ld [wd0b5], a
 	call GetMonHeader
+	ld a, [wMonHEvolution]
+	ld [wCurMonEvolution], a ; store EVOLUTION constant from base stats
 	ld a, [wEnemyBattleStatus3]
 	bit TRANSFORMED, a ; is enemy mon transformed?
 	ld hl, wTransformedEnemyMonOriginalDVs ; original DVs before transforming

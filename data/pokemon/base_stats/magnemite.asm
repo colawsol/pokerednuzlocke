@@ -20,4 +20,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_MAGNETON
+
 	db 0 ; padding

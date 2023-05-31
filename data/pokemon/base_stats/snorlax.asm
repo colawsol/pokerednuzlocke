@@ -24,4 +24,6 @@
 	     STRENGTH
 	; end
 
+	db EVOLUTION_SNORLAX
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     SKULL_BASH,   REST,         SUBSTITUTE,   SURF
 	; end
 
+	db EVOLUTION_EEVEE
+
 	db 0 ; padding

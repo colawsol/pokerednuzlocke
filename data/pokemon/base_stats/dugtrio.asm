@@ -19,4 +19,6 @@
 	     DOUBLE_TEAM,  BIDE,         REST,         ROCK_SLIDE,   SUBSTITUTE
 	; end
 
+	db EVOLUTION_DUGTRIO
+
 	db 0 ; padding

@@ -21,4 +21,6 @@
 	     STRENGTH
 	; end
 
+	db EVOLUTION_TAUROS
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     SUBSTITUTE,   CUT,          SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_KINGLER
+
 	db 0 ; padding

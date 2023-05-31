@@ -19,4 +19,6 @@
 	     SWIFT,        SKY_ATTACK,   REST,         SUBSTITUTE,   FLY
 	; end
 
+	db EVOLUTION_PIDGEOT
+
 	db 0 ; padding

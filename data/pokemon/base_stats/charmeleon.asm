@@ -21,4 +21,6 @@
 	     REST,         SUBSTITUTE,   CUT,          STRENGTH
 	; end
 
+	db EVOLUTION_CHARIZARD
+
 	db 0 ; padding

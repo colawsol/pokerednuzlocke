@@ -20,4 +20,6 @@
 	     CUT
 	; end
 
+	db EVOLUTION_VENUSAUR
+
 	db 0 ; padding

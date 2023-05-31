@@ -20,4 +20,6 @@
 	     CUT
 	; end
 
+	db EVOLUTION_BEEDRILL
+
 	db 0 ; padding

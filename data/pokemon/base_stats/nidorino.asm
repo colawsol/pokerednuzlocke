@@ -20,4 +20,6 @@
 	     BIDE,         SKULL_BASH,   REST,         SUBSTITUTE
 	; end
 
+	db EVOLUTION_NIDOKING
+
 	db 0 ; padding

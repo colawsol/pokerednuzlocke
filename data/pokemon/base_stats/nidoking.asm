@@ -23,4 +23,6 @@
 	     SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_NIDOKING
+
 	db 0 ; padding

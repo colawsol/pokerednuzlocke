@@ -20,4 +20,6 @@
 	     SURF
 	; end
 
+	db EVOLUTION_OMASTAR
+
 	db 0 ; padding

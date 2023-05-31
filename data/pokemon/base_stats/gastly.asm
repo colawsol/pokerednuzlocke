@@ -19,4 +19,6 @@
 	     DREAM_EATER,  REST,         PSYWAVE,      EXPLOSION,    SUBSTITUTE
 	; end
 
+	db EVOLUTION_GENGAR
+
 	db 0 ; padding

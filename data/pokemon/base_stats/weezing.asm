@@ -19,4 +19,6 @@
 	     REST,         EXPLOSION,    SUBSTITUTE
 	; end
 
+	db EVOLUTION_WEEZING
+
 	db 0 ; padding
