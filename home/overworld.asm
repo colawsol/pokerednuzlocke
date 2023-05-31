@@ -2050,6 +2050,9 @@ LoadMapHeader::
 	ld [wSouthConnectedMap], a
 	ld [wWestConnectedMap], a
 	ld [wEastConnectedMap], a
+.storeLandmark ; stores LANDMARK constant from map header
+	ld a, [hli]
+	ld [wCurMapLandmark], a
 ; copy connection data (if any) to WRAM
 	ld a, [wMapConnections]
 	ld b, a
