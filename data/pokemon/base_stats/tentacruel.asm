@@ -20,4 +20,6 @@
 	     SKULL_BASH,   REST,         SUBSTITUTE,   CUT,          SURF
 	; end
 
+	db EVOLUTION_TENTACRUEL
+
 	db 0 ; padding

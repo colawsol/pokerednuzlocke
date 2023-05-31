@@ -21,4 +21,6 @@
 	     SURF
 	; end
 
+	db EVOLUTION_CLOYSTER
+
 	db 0 ; padding

@@ -24,4 +24,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_MEWTWO
+
 	db 0 ; padding

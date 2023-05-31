@@ -22,4 +22,6 @@
 	     STRENGTH
 	; end
 
+	db EVOLUTION_LAPRAS
+
 	db 0 ; padding

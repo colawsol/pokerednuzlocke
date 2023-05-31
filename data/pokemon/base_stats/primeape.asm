@@ -21,4 +21,6 @@
 	     SKULL_BASH,   REST,         ROCK_SLIDE,   SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_PRIMEAPE
+
 	db 0 ; padding

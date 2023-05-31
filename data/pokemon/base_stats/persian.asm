@@ -20,4 +20,6 @@
 	     SKULL_BASH,   REST,         SUBSTITUTE
 	; end
 
+	db EVOLUTION_PERSIAN
+
 	db 0 ; padding

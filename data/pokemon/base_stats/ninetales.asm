@@ -20,4 +20,6 @@
 	     SUBSTITUTE
 	; end
 
+	db EVOLUTION_NINETALES
+
 	db 0 ; padding

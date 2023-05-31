@@ -20,4 +20,6 @@
 	     BIDE,         SWIFT,        SKULL_BASH,   REST,         SUBSTITUTE
 	; end
 
+	db EVOLUTION_RATICATE
+
 	db 0 ; padding

@@ -21,4 +21,6 @@
 	     THUNDER_WAVE, SUBSTITUTE,   SURF
 	; end
 
+	db EVOLUTION_DRAGONITE
+
 	db 0 ; padding

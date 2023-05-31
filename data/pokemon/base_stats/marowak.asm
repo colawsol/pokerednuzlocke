@@ -22,4 +22,6 @@
 	     STRENGTH
 	; end
 
+	db EVOLUTION_MAROWAK
+
 	db 0 ; padding

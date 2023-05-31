@@ -20,4 +20,6 @@
 	     SUBSTITUTE,   SURF
 	; end
 
+	db EVOLUTION_SEADRA
+
 	db 0 ; padding

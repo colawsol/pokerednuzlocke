@@ -20,4 +20,6 @@
 	     SUBSTITUTE
 	; end
 
+	db EVOLUTION_RAPIDASH
+
 	db 0 ; padding

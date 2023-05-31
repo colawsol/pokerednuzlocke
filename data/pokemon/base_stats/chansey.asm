@@ -24,4 +24,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_CHANSEY
+
 	db 0 ; padding

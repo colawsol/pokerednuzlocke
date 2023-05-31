@@ -21,4 +21,6 @@
 	     SUBSTITUTE,   SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_GYARADOS
+
 	db 0 ; padding

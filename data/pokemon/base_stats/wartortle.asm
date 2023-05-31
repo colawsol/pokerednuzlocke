@@ -21,4 +21,6 @@
 	     REST,         SUBSTITUTE,   SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_BLASTOISE
+
 	db 0 ; padding

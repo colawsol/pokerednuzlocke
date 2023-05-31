@@ -20,4 +20,6 @@
 	     ROCK_SLIDE,   SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_ONIX
+
 	db 0 ; padding

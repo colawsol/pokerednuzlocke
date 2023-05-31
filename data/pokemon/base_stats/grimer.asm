@@ -19,4 +19,6 @@
 	     FIRE_BLAST,   REST,         EXPLOSION,    SUBSTITUTE
 	; end
 
+	db EVOLUTION_MUK
+
 	db 0 ; padding

@@ -21,4 +21,6 @@
 	     ROCK_SLIDE,   SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_GOLEM
+
 	db 0 ; padding

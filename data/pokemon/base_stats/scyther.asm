@@ -19,4 +19,6 @@
 	     SKULL_BASH,   REST,         SUBSTITUTE,   CUT
 	; end
 
+	db EVOLUTION_SCYTHER
+
 	db 0 ; padding

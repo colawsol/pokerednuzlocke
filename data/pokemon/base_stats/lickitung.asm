@@ -22,4 +22,6 @@
 	     REST,         SUBSTITUTE,   CUT,          SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_LICKITUNG
+
 	db 0 ; padding

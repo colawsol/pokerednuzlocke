@@ -20,4 +20,6 @@
 	     REST,         THUNDER_WAVE, SUBSTITUTE,   FLY,          FLASH
 	; end
 
+	db EVOLUTION_ZAPDOS
+
 	db 0 ; padding

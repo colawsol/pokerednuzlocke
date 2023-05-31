@@ -19,4 +19,6 @@
 	     BIDE,         SWIFT,        REST,         SUBSTITUTE
 	; end
 
+	db EVOLUTION_GOLBAT
+
 	db 0 ; padding

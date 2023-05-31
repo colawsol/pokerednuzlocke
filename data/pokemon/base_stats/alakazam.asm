@@ -22,4 +22,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_ALAKAZAM
+
 	db 0 ; padding

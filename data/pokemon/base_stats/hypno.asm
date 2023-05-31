@@ -22,4 +22,6 @@
 	     FLASH
 	; end
 
+	db EVOLUTION_HYPNO
+
 	db 0 ; padding

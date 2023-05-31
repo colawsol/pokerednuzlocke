@@ -21,4 +21,6 @@
 	     THUNDER_WAVE, SUBSTITUTE,   FLASH
 	; end
 
+	db EVOLUTION_RAICHU
+
 	db 0 ; padding

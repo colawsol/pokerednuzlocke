@@ -20,4 +20,6 @@
 	     CUT
 	; end
 
+	db EVOLUTION_VILEPLUME
+
 	db 0 ; padding

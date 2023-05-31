@@ -23,4 +23,6 @@
 	     TRI_ATTACK,   SUBSTITUTE,   STRENGTH,     FLASH
 	; end
 
+	db EVOLUTION_CLEFABLE
+
 	db 0 ; padding

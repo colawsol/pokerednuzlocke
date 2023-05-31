@@ -20,4 +20,6 @@
 	     REST,         SUBSTITUTE,   CUT
 	; end
 
+	db EVOLUTION_PARASECT
+
 	db 0 ; padding

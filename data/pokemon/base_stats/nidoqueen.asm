@@ -23,4 +23,6 @@
 	     SURF,         STRENGTH
 	; end
 
+	db EVOLUTION_NIDOQUEEN
+
 	db 0 ; padding

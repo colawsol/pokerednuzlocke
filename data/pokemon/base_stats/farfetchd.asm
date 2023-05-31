@@ -20,4 +20,6 @@
 	     SUBSTITUTE,   CUT,          FLY
 	; end
 
+	db EVOLUTION_FARFETCHD
+
 	db 0 ; padding

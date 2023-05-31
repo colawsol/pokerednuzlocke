@@ -20,4 +20,6 @@
 	     CUT
 	; end
 
+	db EVOLUTION_TANGELA
+
 	db 0 ; padding

@@ -17,4 +17,6 @@
 	tmhm
 	; end
 
+	db EVOLUTION_BUTTERFREE
+
 	db 0 ; padding

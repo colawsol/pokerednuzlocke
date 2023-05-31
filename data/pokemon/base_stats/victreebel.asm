@@ -20,4 +20,6 @@
 	     CUT
 	; end
 
+	db EVOLUTION_VICTREEBEL
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     SWIFT,        SKY_ATTACK,   REST,         SUBSTITUTE,   FLY
 	; end
 
+	db EVOLUTION_ARTICUNO
+
 	db 0 ; padding

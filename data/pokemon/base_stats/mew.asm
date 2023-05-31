@@ -28,4 +28,6 @@
 	     UNUSED
 	; end
 
+	db EVOLUTION_MEW
+
 	db %11111111 ; padding

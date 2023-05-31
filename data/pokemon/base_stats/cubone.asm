@@ -21,4 +21,6 @@
 	     FIRE_BLAST,   SKULL_BASH,   REST,         SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_MAROWAK
+
 	db 0 ; padding

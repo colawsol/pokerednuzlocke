@@ -20,4 +20,6 @@
 	     REST,         SUBSTITUTE,   SURF
 	; end
 
+	db EVOLUTION_SEAKING
+
 	db 0 ; padding

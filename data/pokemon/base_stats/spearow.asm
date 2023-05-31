@@ -19,4 +19,6 @@
 	     SKY_ATTACK,   REST,         SUBSTITUTE,   FLY
 	; end
 
+	db EVOLUTION_FEAROW
+
 	db 0 ; padding

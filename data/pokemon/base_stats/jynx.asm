@@ -22,4 +22,6 @@
 	     SUBSTITUTE
 	; end
 
+	db EVOLUTION_JYNX
+
 	db 0 ; padding

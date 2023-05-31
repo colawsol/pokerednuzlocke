@@ -19,4 +19,6 @@
 	     BIDE,         REST,         SUBSTITUTE,   CUT
 	; end
 
+	db EVOLUTION_VICTREEBEL
+
 	db 0 ; padding

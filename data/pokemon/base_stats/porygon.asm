@@ -21,4 +21,6 @@
 	     TRI_ATTACK,   SUBSTITUTE,   FLASH
 	; end
 
+	db EVOLUTION_PORYGON
+
 	db 0 ; padding

@@ -20,4 +20,6 @@
 	     SUBSTITUTE,   STRENGTH
 	; end
 
+	db EVOLUTION_ARBOK
+
 	db 0 ; padding

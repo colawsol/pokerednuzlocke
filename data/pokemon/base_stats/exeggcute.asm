@@ -20,4 +20,6 @@
 	     SUBSTITUTE
 	; end
 
+	db EVOLUTION_EXEGGUTOR
+
 	db 0 ; padding

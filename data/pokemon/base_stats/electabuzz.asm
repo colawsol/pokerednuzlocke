@@ -22,4 +22,6 @@
 	     SUBSTITUTE,   STRENGTH,     FLASH
 	; end
 
+	db EVOLUTION_ELECTABUZZ
+
 	db 0 ; padding
