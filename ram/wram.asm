@@ -2298,6 +2298,8 @@ wDayCareMon:: box_struct wDayCareMon
 ; bit 3: adding BUDDY to party/PC
 wNuzlockeFlags:: db
 
+wCurMapLandmark:: db ; for logging encounters
+
 wEncounterFlags:: flag_array NUM_LANDMARKS ; for logging encounters
 
 wEvolutionFlags:: flag_array NUM_EVOLUTIONS ; for logging evolutions
