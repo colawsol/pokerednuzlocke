@@ -1,16 +1,3 @@
-EvolutionIndex:: ; find corresponding EVOLUTION for wEnemyMonSpecies
-	ld hl, EvolutionIndexTable
-.search ; search for corresponding EVOLUTION
-	cp [hl]
-	jr c, .done ; jump if EVOLUTION found
-	inc hl
-	inc hl
-	jr .search
-.done
-	inc hl
-	ld a, [hl] ; load a with corresponding EVOLUTION
-	ret
-
 SetEncounter:: ; set EncounterFlag for corresponding LANDMARK
 	ld a, [wNuzlockeFlags]
 	bit 0, a ; check Nuzlocke state
@@ -23,8 +10,7 @@ SetEncounter:: ; set EncounterFlag for corresponding LANDMARK
 	ret
 
 SetEvolution:: ; set EvolutionFlag for corresponding EVOLUTION
-	ld a, [wEnemyMonSpecies]
-	call EvolutionIndex
+	ld a, [wCurMonEvolution]
 	ld c, a
 	ld b, FLAG_SET
 	ld hl, wEvolutionFlags
@@ -41,13 +27,10 @@ HadEncounter:: ; check EncounterFlag for corresponding LANDMARK
 	ret
 
 OwnEvolution:: ; check EvolutionFlag for corresponding EVOLUTION
-	ld a, [wEnemyMonSpecies]
-	call EvolutionIndex
+	ld a, [wCurMonEvolution]
 	ld c, a
 	ld b, FLAG_TEST
 	ld hl, wEvolutionFlags
 	predef FlagActionPredef
 	ld e, c
 	ret
-
-INCLUDE "engine/nuzlocke/index_tables.asm"

@@ -1532,6 +1532,7 @@ wMonHBackSprite:: dw
 wMonHMoves:: ds NUM_MOVES
 wMonHGrowthRate:: db
 wMonHLearnset:: flag_array NUM_TMS + NUM_HMS
+wMonHEvolution:: db
 	ds 1
 wMonHeaderEnd::
 
@@ -2301,6 +2302,8 @@ wNuzlockeFlags:: db
 wCurMapLandmark:: db ; for logging encounters
 
 wEncounterFlags:: flag_array NUM_LANDMARKS ; for logging encounters
+
+wCurMonEvolution:: db ; for logging evolutions
 
 wEvolutionFlags:: flag_array NUM_EVOLUTIONS ; for logging evolutions
 
