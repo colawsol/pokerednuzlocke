@@ -69,8 +69,21 @@ UpdatePlayerSprite:
 	ld a, [hl]
 	inc a
 	ld [hl], a
-	cp 4
-	jr nz, .calcImageIndex
+	push bc ; taken from jojobear13's shinpokered (start)
+	ld c, 4
+	ld b, a
+	ld a, [wJoyIgnore]
+	and a
+	jr nz, .noSpeedUp
+	ld a, [hJoyHeld]
+	and B_BUTTON
+	jr z, .noSpeedUp
+	ld c, 3
+.noSpeedUp
+	ld a, b
+	cp c
+	pop bc
+	jr c, .calcImageIndex ; taken from jojobear13's shinpokered (end)
 	xor a
 	ld [hl], a
 	inc hl

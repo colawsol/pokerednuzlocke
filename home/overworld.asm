@@ -278,10 +278,21 @@ OverworldLoopLessDelay::
 	res 2, [hl]
 	ld a, [wWalkBikeSurfState]
 	dec a ; riding a bike?
-	jr nz, .normalPlayerSpriteAdvancement
+	jr nz, .runningShoes
 	ld a, [wd736]
 	bit 6, a ; jumping a ledge?
 	jr nz, .normalPlayerSpriteAdvancement
+	call DoBikeSpeedup
+	ld a, [hJoyHeld]
+	and B_BUTTON
+	jr z, .normalPlayerSpriteAdvancement
+	call DoBikeSpeedup
+	call DoBikeSpeedup
+	jr .normalPlayerSpriteAdvancement
+.runningShoes
+	ld a, [hJoyHeld]
+	and B_BUTTON
+	jr z, .normalPlayerSpriteAdvancement
 	call DoBikeSpeedup
 .normalPlayerSpriteAdvancement
 	call AdvancePlayerSprite
