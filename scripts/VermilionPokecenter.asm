@@ -3,28 +3,29 @@ VermilionPokecenter_Script:
 	jp EnableAutoTextBoxDrawing
 
 VermilionPokecenter_TextPointers:
-	dw VermilionHealNurseText
-	dw VermilionPokecenterText2
-	dw VermilionPokecenterText3 ; BUDDY
-	dw VermilionTradeNurseText
+	def_text_pointers
+	dw_const VermilionPokecenterNurseText,            TEXT_VERMILIONPOKECENTER_NURSE
+	dw_const VermilionPokecenterFishingGuruText,      TEXT_VERMILIONPOKECENTER_FISHING_GURU
+	dw_const VermilionPokecenterSailorText,           TEXT_VERMILIONPOKECENTER_SAILOR
+	dw_const VermilionPokecenterLinkReceptionistText, TEXT_VERMILIONPOKECENTER_LINK_RECEPTIONIST
 
-VermilionHealNurseText:
+VermilionPokecenterNurseText:
 	script_pokecenter_nurse
 
-VermilionPokecenterText2:
-	text_far _VermilionPokecenterText2
+VermilionPokecenterFishingGuruText:
+	text_far _VermilionPokecenterFishingGuruText
 	text_end
 
-VermilionPokecenterText3:
-	text_asm ; taken from SilphCo7Text1 (start)
+VermilionPokecenterSailorText:
+	text_asm ; taken from SilphCo7FSilphWorkerM1Text (start)
 	ld a, [wNuzlockeFlags]
 	bit 2, a ; check if got BUDDY
 	jr z, .giveBuddy ; jump if not got BUDDY
-	ld hl, .BuddyGuyText
+	ld hl, .BuddySailorText
 	call PrintText
 	jr .done
 .giveBuddy
-	ld hl, .MeetBuddyGuyText
+	ld hl, .MeetBuddySailorText
 	call PrintText
 	call YesNoChoice ; taken from OaksLabMonChoiceMenu (start)
 	ld a, [wCurrentMenuItem]
@@ -48,8 +49,8 @@ VermilionPokecenterText3:
 .done
 	jp TextScriptEnd
 
-.MeetBuddyGuyText ; text/VermilionPokecenter.asm
-	text_far _MeetBuddyGuyText
+.MeetBuddySailorText ; text/VermilionPokecenter.asm
+	text_far _MeetBuddySailorText
 	text_end
 
 .HeresBuddyText ; text/VermilionPokecenter.asm
@@ -60,9 +61,9 @@ VermilionPokecenterText3:
 	text_far _DidNotTakeBuddyText
 	text_end
 
-.BuddyGuyText ; text/VermilionPokecenter.asm
-	text_far _BuddyGuyText
-	text_end ; taken from SilphCo7Text1 (end)
+.BuddySailorText ; text/VermilionPokecenter.asm
+	text_far _BuddySailorText
+	text_end ; taken from SilphCo7FSilphWorkerM1Text (end)
 
-VermilionTradeNurseText:
+VermilionPokecenterLinkReceptionistText:
 	script_cable_club_receptionist
