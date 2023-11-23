@@ -341,7 +341,7 @@ WrongMon3Text:
 	text_far _WrongMon3Text
 	text_end
 
-FaintedMon3Text:
+FaintedMon3Text: ; data/text/text_7.asm
 	text_far _FaintedMon3Text
 	text_end
 
