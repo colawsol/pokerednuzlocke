@@ -142,7 +142,7 @@ UpdateNPCSprite:
 	and a
 	jp z, InitializeSpriteStatus
 	call CheckSpriteAvailability
-	ret c             ; if sprite is invisible, on tile >=MAP_TILESET_SIZE, in grass or player is currently walking
+	ret c             ; don't do anything if sprite is invisible
 	ld h, HIGH(wSpriteStateData1)
 	ldh a, [hCurrentSpriteOffset]
 	ld l, a
@@ -161,7 +161,7 @@ UpdateNPCSprite:
 	jp z, UpdateSpriteInWalkingAnimation  ; [x#SPRITESTATEDATA1_MOVEMENTSTATUS] == 3
 	ld a, [wWalkCounter]
 	and a
-	ret nz           ; don't do anything yet if player is currently moving (redundant, already tested in CheckSpriteAvailability)
+	ret nz           ; don't do anything yet if player is currently moving
 	call InitializeSpriteScreenPosition
 	ld h, HIGH(wSpriteStateData2)
 	ldh a, [hCurrentSpriteOffset]
@@ -192,7 +192,7 @@ UpdateNPCSprite:
 	res 0, [hl]
 	xor a
 	ld [wSimulatedJoypadStatesIndex], a
-	ld [wWastedByteCD3A], a
+	ld [wUnusedCD3A], a
 	ret
 .next
 	cp WALK

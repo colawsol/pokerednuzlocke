@@ -1,4 +1,4 @@
-_VermilionPokecenterText2::
+_VermilionPokecenterFishingGuruText::
 	text "Even if they are"
 	line "the same level,"
 	cont "#MON can have"
@@ -11,7 +11,7 @@ _VermilionPokecenterText2::
 	cont "in the wild."
 	done
 
-_MeetBuddyGuyText::
+_MeetBuddySailorText::
 	text "I found this"
 	line "#MON at sea,"
 	cont "but the #MON"
@@ -48,7 +48,7 @@ _DidNotTakeBuddyText::
 	cont "someone."
 	done
 
-_BuddyGuyText::
+_BuddySailorText::
 	text "I hope that"
 	line "#MON serves"
 	cont "you well."
