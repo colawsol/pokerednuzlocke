@@ -135,6 +135,11 @@ RedrawPartyMenu_::
 	call FarCopyData
 	ld hl, wcd6d
 	ld de, .notAbleToEvolveText
+	jr .checkEvolutionsLoop
+.faintedMon
+	pop af ; to restore af
+	pop bc ; to restore bc
+	pop hl ; to restore hl
 ; loop through the pokemon's evolution entries
 .checkEvolutionsLoop
 	ld a, [hli]
@@ -154,7 +159,21 @@ RedrawPartyMenu_::
 	inc hl
 	cp b ; does the player's stone match this evolution entry's stone?
 	jr nz, .checkEvolutionsLoop
-; if it does match
+	push hl ; to preserve hl
+	push bc ; to preserve bc
+	push af ; to preserve af
+	ld hl, wPartyMons ; taken from item_effects (start)
+	ld bc, wPartyMon2 - wPartyMon1
+	ld a, [wWhichPokemon]
+	call AddNTimes ; taken from item_effects (end)
+	inc hl ; hl now points to MSB of current HP
+	ld a, [hli]
+	or a, [hl] ; if both bytes of wPartyMon*HP are 0 then z is set
+	jr z, .faintedMon ; jump if Mon is fainted
+	pop af ; to restore af
+	pop bc ; to restore bc
+	pop hl ; to restore hl
+; if it does match and Mon is not fainted
 	ld de, .ableToEvolveText
 .placeEvolutionStoneString
 	ld bc, 20 + 9 ; down 1 row and right 9 columns
@@ -163,7 +182,7 @@ RedrawPartyMenu_::
 	add hl, bc
 	call PlaceString
 	pop hl
-	jr .printLevel
+	jp .printLevel
 .ableToEvolveText
 	db "ABLE@"
 .notAbleToEvolveText
