@@ -86,8 +86,10 @@ _AddPartyMon::
 	ld b, SPDSPCDV_TRAINER
 	jr nz, .next4
 
-; If the mon is being added to the player's party, update the pokedex.
+; If the mon is being added to the player's party, set EvolutionFlag for corresponding EVOLUTION and update the pokedex.
 	ld a, [wcf91]
+	ld [wEnemyMonSpecies], a ; copy species for use in SetEvolution
+	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 	ld [wd11e], a
 	push de
 	predef IndexToPokedex
@@ -354,6 +356,8 @@ _AddEnemyMonToPlayerParty::
 	ld bc, NAME_LENGTH
 	call CopyData    ; write new mon's nickname (from an enemy mon)
 	ld a, [wcf91]
+	ld [wEnemyMonSpecies], a ; copy species for use in SetEvolution
+	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 	ld [wd11e], a
 	predef IndexToPokedex
 	ld a, [wd11e]
