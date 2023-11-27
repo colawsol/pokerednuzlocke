@@ -528,7 +528,6 @@ ItemUseBall:
 	ld hl, wNuzlockeFlags
 	res 1, [hl] ; clear bit for throwing Ball
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
-	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 
 ; Add the caught Pokémon to the Pokédex.
 	predef IndexToPokedex
@@ -2685,6 +2684,7 @@ IsKeyItem_::
 INCLUDE "data/items/key_items.asm"
 
 SendNewMonToBox:
+	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 	ld de, wBoxCount
 	ld a, [de]
 	inc a
