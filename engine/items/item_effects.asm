@@ -2684,7 +2684,6 @@ IsKeyItem_::
 INCLUDE "data/items/key_items.asm"
 
 SendNewMonToBox:
-	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 	ld de, wBoxCount
 	ld a, [de]
 	inc a
@@ -2702,6 +2701,7 @@ SendNewMonToBox:
 	cp $ff
 	jr nz, .loop
 	call GetMonHeader
+	farcall SetEvolution ; set EvolutionFlag for corresponding EVOLUTION
 	ld hl, wBoxMonOT
 	ld bc, NAME_LENGTH
 	ld a, [wBoxCount]

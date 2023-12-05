@@ -10,7 +10,7 @@ SetEncounter:: ; set EncounterFlag for corresponding LANDMARK
 	ret
 
 SetEvolution:: ; set EvolutionFlag for corresponding EVOLUTION
-	ld a, [wCurMonEvolution]
+	ld a, [wMonHEvolution]
 	ld c, a
 	ld b, FLAG_SET
 	ld hl, wEvolutionFlags
