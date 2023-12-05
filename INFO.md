@@ -1,6 +1,8 @@
 # Info
 
 ## Changelog
+
+### Nuzlocke
 * Fainted Pokémon are no longer revived during party-healing events, e.g. using Pokémon Centers, talking to Mom etc (except immediately after the first rival battle).
 * Revives and Max Revives have been removed from the game.
 * Fainted Pokémon cannot be taken into the Cable Club or used for in-game trades.
@@ -15,7 +17,10 @@
 		* A filled ball indicates an encounter that can be re-rolled if desired, as a Pokémon of that evolution line has already been caught.
 * Provided access to HM-compatible Pokémon as a gift in Vermilion Pokémon Center to prevent being unable to progress due to available encounters.
 * All Pokémon must be nicknamed.
+
+### Quality of Life
 * Holding B increases your movement speed, imitating the function of the Mach Bike and Running Shoes.
+* Text speed defaults to fast.
 
 ## To Do
 
