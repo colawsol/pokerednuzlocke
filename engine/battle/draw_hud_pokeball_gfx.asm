@@ -136,6 +136,26 @@ PlaceEnemyHUDTiles:
 	ld de, wHUDGraphicsTiles
 	ld bc, $3
 	call CopyData
+; encounter indicators
+	ld a, [wIsInBattle] ; check if wild battle
+	cp $01
+	jr nz, .noIndicators ; jump if not wild battle
+	farcall HadEncounter ; check EncounterFlag for corresponding LANDMARK
+	ld a, e
+	and a
+	jr nz, .noIndicators ; jump if EncounterFlag set
+	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
+	ld a, e
+	and a
+	jr z, .newEvolution ; jump if EvolutionFlag clear
+	ld a, $C0 ; load filled ball
+	jr .printBall
+.newEvolution
+	ld a, $C1 ; load empty ball
+.printBall
+	hlcoord 1, 1
+	ld [hl], a ; print ball below Mon name to indicate owned EVOLUTION
+.noIndicators
 	hlcoord 1, 2
 	ld de, $1
 	jr PlaceHUDTiles
