@@ -20,6 +20,12 @@ _PlayerBlackedOutText::
 _RepelWoreOffText::
 	text "REPEL's effect"
 	line "wore off."
+	prompt
+
+_RepelUseAnotherText::
+	text "Use a @"
+	text_ram wStringBuffer
+	text "?"
 	done
 
 _PokemartBuyingGreetingText::

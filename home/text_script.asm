@@ -206,10 +206,5 @@ PlayerBlackedOutText::
 	text_end
 
 DisplayRepelWoreOffText::
-	ld hl, RepelWoreOffText
-	call PrintText
-	jp AfterDisplayingTextID
-
-RepelWoreOffText::
-	text_far _RepelWoreOffText
-	text_end
+	farcall _DisplayRepelWoreOffText ; engine/overworld/repel.asm
+	jp HoldTextDisplayOpen
