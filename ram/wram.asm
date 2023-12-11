@@ -2298,6 +2298,8 @@ wCurMonEvolution:: db ; for logging evolutions
 
 wEvolutionFlags:: flag_array NUM_EVOLUTIONS ; for logging evolutions
 
+wLastRepelUsed:: db ; for auto-repel system
+
 wMainDataEnd::
 
 

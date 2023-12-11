@@ -1550,6 +1550,8 @@ ItemUseRepelCommon:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
+	ld a, [wcf91]
+	ld [wLastRepelUsed], a ; store ID of REPEL used
 	ld a, b
 	ld [wRepelRemainingSteps], a
 	jp PrintItemUseTextAndRemoveItem
