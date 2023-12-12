@@ -1,5 +1,6 @@
 	object_const_def
 	const_export DAYCARE_GENTLEMAN
+	const_export DAYCARE_SALESMAN
 
 Daycare_Object:
 	db $a ; border block
@@ -12,5 +13,6 @@ Daycare_Object:
 
 	def_object_events
 	object_event  2,  3, SPRITE_GENTLEMAN, STAY, RIGHT, TEXT_DAYCARE_GENTLEMAN
+	object_event  5,  3, SPRITE_GENTLEMAN, STAY, LEFT, TEXT_DAYCARE_SALESMAN
 
 	def_warps_to DAYCARE

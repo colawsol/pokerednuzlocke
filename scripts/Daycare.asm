@@ -4,6 +4,7 @@ Daycare_Script:
 Daycare_TextPointers:
 	def_text_pointers
 	dw_const DaycareGentlemanText, TEXT_DAYCARE_GENTLEMAN
+	dw_const DaycareSalesmanText, TEXT_DAYCARE_SALESMAN
 
 DaycareGentlemanText:
 	text_asm
@@ -283,3 +284,5 @@ DaycareGentlemanText:
 .NotEnoughMoneyText:
 	text_far _DaycareGentlemanNotEnoughMoneyText
 	text_end
+
+DaycareSalesmanText:
