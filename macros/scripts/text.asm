@@ -210,3 +210,13 @@ ENDM
 MACRO script_vending_machine
 	db TX_SCRIPT_VENDING_MACHINE
 ENDM
+
+	const TX_SCRIPT_SALESMAN ; $f4 ; taken from script_mart macro (start)
+MACRO script_salesman
+	db TX_SCRIPT_SALESMAN
+	db _NARG ; number of items
+	IF _NARG
+		db \# ; all item ids
+	ENDC
+	db -1 ; end
+ENDM ; taken from script_mart macro (end)

@@ -286,3 +286,4 @@ DaycareGentlemanText:
 	text_end
 
 DaycareSalesmanText:
+	script_salesman RARE_CANDY

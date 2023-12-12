@@ -82,6 +82,7 @@ ENDM
 	dict2 TX_SCRIPT_VENDING_MACHINE,         farcall VendingMachineMenu
 	dict  TX_SCRIPT_PRIZE_VENDOR,            TextScript_GameCornerPrizeMenu
 	dict2 TX_SCRIPT_CABLE_CLUB_RECEPTIONIST, callfar CableClubNPC
+	dict  TX_SCRIPT_SALESMAN,                DisplaySalesmanDialogue
 
 	call PrintText_NoCreatingTextBox ; display the text
 	ld a, [wDoNotWaitForButtonPressAfterDisplayingText]
@@ -148,6 +149,14 @@ DisplayPokemartDialogue::
 	ld [wListMenuID], a
 	homecall DisplayPokemartDialogue_
 	jp AfterDisplayingTextID
+
+DisplaySalesmanDialogue::
+	inc hl ; taken from DisplayPokemartDialogue (start)
+	call LoadItemList
+	ld a, PRICEDITEMLISTMENU
+	ld [wListMenuID], a
+	homecall DisplayPokemartDialogue_
+	jp AfterDisplayingTextID ; taken from DisplayPokemartDialogue (end)
 
 PokemartGreetingText::
 	text_far _PokemartGreetingText
