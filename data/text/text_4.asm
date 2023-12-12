@@ -3,6 +3,20 @@ _PokemartGreetingText::
 	next "May I help you?"
 	done
 
+_RareCandySalesmanGreetingText::
+	text "I'm a RARE CANDY"
+	line "salesman. If"
+	cont "you're looking for"
+	cont "a quicker way to"
+	cont "grow your #MON"
+	cont "by level, then I"
+	cont "can help."
+
+	para "They're expensive,"
+	line "but what do you"
+	cont "say?"
+	done
+
 _PokemonFaintedText::
 	text_ram wcd6d
 	text_start

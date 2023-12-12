@@ -155,7 +155,7 @@ DisplaySalesmanDialogue::
 	call LoadItemList
 	ld a, PRICEDITEMLISTMENU
 	ld [wListMenuID], a
-	homecall DisplayPokemartDialogue_
+	homecall DisplaySalesmanDialogue_ ; engine/events/salesman.asm
 	jp AfterDisplayingTextID ; taken from DisplayPokemartDialogue (end)
 
 PokemartGreetingText::
