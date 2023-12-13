@@ -22,6 +22,7 @@
 * Holding B increases your movement speed, imitating the function of the Mach Bike and Running Shoes.
 * Text speed defaults to fast.
 * An automated Repel system has been implemented, similar to that of Black 2 and White 2, meaning you are prompted to use another when the current one expires.
+* Kadabra, Graveler, Machoke and Haunter can be evolved with the Trade Stone, a new item made available in the Celadon Mart.
 
 ## To Do
 
