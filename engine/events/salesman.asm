@@ -25,7 +25,7 @@ DisplaySalesmanDialogue_::
 	ld a, MONEY_BOX
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
-	ld a, BUY_SELL_QUIT_MENU
+	ld a, BUY_QUIT_MENU
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
 
@@ -42,94 +42,8 @@ DisplaySalesmanDialogue_::
 	ld a, [wChosenMenuItem]
 	and a ; buying?
 	jp z, .buyMenu
-	dec a ; selling?
-	jp z, .sellMenu
 	dec a ; quitting?
 	jp z, .done
-.sellMenu
-
-; the same variables are set again below, so this code has no effect
-	xor a
-	ld [wPrintItemPrices], a
-	ld a, INIT_BAG_ITEM_LIST
-	ld [wInitListType], a
-	callfar InitList
-
-	ld a, [wNumBagItems]
-	and a
-	jp z, .bagEmpty
-	ld hl, PokemonSellingGreetingText
-	call PrintText
-	call SaveScreenTilesToBuffer1 ; save screen
-.sellMenuLoop
-	call LoadScreenTilesFromBuffer1 ; restore saved screen
-	ld a, MONEY_BOX
-	ld [wTextBoxID], a
-	call DisplayTextBoxID ; draw money text box
-	ld hl, wNumBagItems
-	ld a, l
-	ld [wListPointer], a
-	ld a, h
-	ld [wListPointer + 1], a
-	xor a
-	ld [wPrintItemPrices], a
-	ld [wCurrentMenuItem], a
-	ld a, ITEMLISTMENU
-	ld [wListMenuID], a
-	call DisplayListMenuID
-	jp c, .returnToMainPokemartMenu ; if the player closed the menu
-.confirmItemSale ; if the player is trying to sell a specific item
-	call IsKeyItem
-	ld a, [wIsKeyItem]
-	and a
-	jr nz, .unsellableItem
-	ld a, [wcf91]
-	call IsItemHM
-	jr c, .unsellableItem
-	ld a, PRICEDITEMLISTMENU
-	ld [wListMenuID], a
-	ldh [hHalveItemPrices], a ; halve prices when selling
-	call DisplayChooseQuantityMenu
-	inc a
-	jr z, .sellMenuLoop ; if the player closed the choose quantity menu with the B button
-	ld hl, PokemartTellSellPriceText
-	lb bc, 14, 1 ; location that PrintText always prints to, this is useless
-	call PrintText
-	hlcoord 14, 7
-	lb bc, 8, 15
-	ld a, TWO_OPTION_MENU
-	ld [wTextBoxID], a
-	call DisplayTextBoxID ; yes/no menu
-	ld a, [wMenuExitMethod]
-	cp CHOSE_SECOND_ITEM
-	jr z, .sellMenuLoop ; if the player chose No or pressed the B button
-
-; The following code is supposed to check if the player chose No, but the above
-; check already catches it.
-	ld a, [wChosenMenuItem]
-	dec a
-	jr z, .sellMenuLoop
-
-.sellItem
-	ld a, [wBoughtOrSoldItemInMart]
-	and a
-	jr nz, .skipSettingFlag1
-	inc a
-	ld [wBoughtOrSoldItemInMart], a
-.skipSettingFlag1
-	call AddAmountSoldToMoney
-	ld hl, wNumBagItems
-	call RemoveItemFromInventory
-	jp .sellMenuLoop
-.unsellableItem
-	ld hl, PokemartUnsellableItemText
-	call PrintText
-	jp .returnToMainPokemartMenu
-.bagEmpty
-	ld hl, PokemartItemBagEmptyText
-	call PrintText
-	call SaveScreenTilesToBuffer1
-	jp .returnToMainPokemartMenu
 .buyMenu
 
 ; the same variables are set again below, so this code has no effect

@@ -30,6 +30,8 @@ DEF PC_ITEM_CAPACITY  EQU 50
 	const_skip                              ; $19
 	const JP_POKEDEX_MENU_TEMPLATE          ; $1a
 	const SAFARI_BATTLE_MENU_TEMPLATE       ; $1b
+	const BUY_QUIT_MENU_TEMPLATE            ; $1c
+	const BUY_QUIT_MENU                     ; $1d
 
 ; two option menu constants
 ; TwoOptionMenuStrings indexes (see data/yes_no_menu_strings.asm)

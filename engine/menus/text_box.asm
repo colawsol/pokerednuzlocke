@@ -199,6 +199,57 @@ DoBuySellQuitMenu:
 	scf
 	ret
 
+DoBuyQuitMenu: ; taken from DoBuySellQuitMenu (start)
+	ld a, [wd730]
+	set 6, a ; no printing delay
+	ld [wd730], a
+	xor a
+	ld [wChosenMenuItem], a
+	ld a, BUY_QUIT_MENU_TEMPLATE
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	ld a, A_BUTTON | B_BUTTON
+	ld [wMenuWatchedKeys], a
+	ld a, $1
+	ld [wMaxMenuItem], a
+	ld a, $1
+	ld [wTopMenuItemY], a
+	ld a, $1
+	ld [wTopMenuItemX], a
+	xor a
+	ld [wCurrentMenuItem], a
+	ld [wLastMenuItem], a
+	ld [wMenuWatchMovingOutOfBounds], a
+	ld a, [wd730]
+	res 6, a ; turn on the printing delay
+	ld [wd730], a
+	call HandleMenuInput
+	call PlaceUnfilledArrowMenuCursor
+	bit BIT_A_BUTTON, a
+	jr nz, .pressedA
+	bit BIT_B_BUTTON, a ; always true since only A/B are watched
+	jr z, .pressedA
+	ld a, CANCELLED_MENU
+	ld [wMenuExitMethod], a
+	jr .quit
+.pressedA
+	ld a, CHOSE_MENU_ITEM
+	ld [wMenuExitMethod], a
+	ld a, [wCurrentMenuItem]
+	ld [wChosenMenuItem], a
+	ld b, a
+	ld a, [wMaxMenuItem]
+	cp b
+	jr z, .quit
+	ret
+.quit
+	ld a, CANCELLED_MENU
+	ld [wMenuExitMethod], a
+	ld a, [wCurrentMenuItem]
+	ld [wChosenMenuItem], a
+	scf
+	ret ; taken from BuySellQuitMenu (end)
+
 ; displays a menu with two options to choose from
 ; b = Y of upper left corner of text region
 ; c = X of upper left corner of text region
