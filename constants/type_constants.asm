@@ -2,15 +2,15 @@
 	const_def
 
 DEF PHYSICAL EQU const_value
-	const NORMAL       ; $00
-	const FIGHTING     ; $01
-	const FLYING       ; $02
-	const POISON       ; $03
-	const GROUND       ; $04
-	const ROCK         ; $05
-	const BIRD         ; $06
-	const BUG          ; $07
-	const GHOST        ; $08
+	const NORMAL        ; $00
+	const FIGHTING      ; $01
+	const FLYING        ; $02
+	const POISON        ; $03
+	const GROUND        ; $04
+	const ROCK          ; $05
+	const STRUGGLE_TYPE ; $06
+	const BUG           ; $07
+	const GHOST         ; $08
 
 DEF UNUSED_TYPES EQU const_value
 	const_next 20
