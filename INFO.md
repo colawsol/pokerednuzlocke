@@ -23,6 +23,7 @@
 * Text speed defaults to fast.
 * An automated Repel system has been implemented, similar to that of Black 2 and White 2, meaning you are prompted to use another when the current one expires.
 * Kadabra, Graveler, Machoke and Haunter can be evolved with the Trade Stone, a new item made available in the Celadon Mart.
+* Struggle has been given its own type, allowing for neutral damage against all other types.
 
 ## To Do
 
