@@ -267,8 +267,8 @@ hRedrawRowOrColumnMode:: db
 
 hRedrawRowOrColumnDest:: dw
 
-hRandomAdd:: db
-hRandomSub:: db
+hRandomSub:: dw
+hRandomAdd:: dw
 
 hFrameCounter:: db ; decremented every V-blank (used for delays)
 
@@ -396,4 +396,4 @@ hJoyInput:: db
 
 hDisableJoypadPolling:: db
 
-	ds 5
+	ds 3
