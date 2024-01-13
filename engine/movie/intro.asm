@@ -21,6 +21,12 @@ PlayIntro:
 	ret
 
 PlayIntroScene:
+	ld a, [wNuzlockeFlags]
+	bit 7, a ; check bit for zero RNG seed
+	jr z, .notZero ; jump if not zero RNG seed
+	ldh a, [rDIV] ; load random value
+	ldh [hRandomAdd], a ; initialise RNG seed
+.notZero
 	ld b, SET_PAL_NIDORINO_INTRO
 	call RunPaletteCommand
 	ldpal a, SHADE_BLACK, SHADE_DARK, SHADE_LIGHT, SHADE_WHITE

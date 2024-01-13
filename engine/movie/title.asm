@@ -24,6 +24,12 @@ PrepareTitleScreen::
 	ld [wAudioSavedROMBank], a
 
 DisplayTitleScreen:
+	ld a, [wNuzlockeFlags]
+	bit 7, a ; check bit for zero RNG seed
+	jr z, .notZero ; jump if not zero RNG seed
+	ldh a, [rDIV] ; load random value
+	ldh [hRandomSub], a ; initialise RNG seed
+.notZero
 	call GBPalWhiteOut
 	ld a, $1
 	ldh [hAutoBGTransferEnabled], a
