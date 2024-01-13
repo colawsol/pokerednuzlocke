@@ -53,10 +53,42 @@ DEF rLCDC_DEFAULT EQU %11100011
 
 	call ClearVram
 
+; store junk from HRAM on boot for initialising RNG seed (like in jojobear13's shinpokered)
+	ldh a, [hDMARoutine]
+	push af ; to store af
+	ldh a, [hDMARoutine+1]
+	push af ; to store af
+	ldh a, [hDMARoutine+2]
+	push af ; to store af
+	ldh a, [hDMARoutine+3]
+	push af ; to store af
+	xor a ; to zero a
+
 	ld hl, HRAM_Begin
 	ld bc, HRAM_End - HRAM_Begin
 	call FillMemory
 
+; initialise RNG seed
+	pop af ; to retrieve af
+	ldh [hRandomAdd], a
+	ld d, a ; store a
+	pop af ; to retrieve af
+	ldh [hRandomSub], a
+	ld e, a ; store a
+	pop af ; to retrieve af
+	ldh [hRandomAdd+1], a
+	ld h, a ; store a
+	pop af ; to retrieve af
+	ldh [hRandomSub+1], a
+	or a
+	or h
+	or e
+	or d ; if all initialised values are zero then z is set
+	jr nz, .nonZeroSeed ; jump if at least one value is non-zero
+	ld hl, wNuzlockeFlags
+	set 7, [hl] ; set bit for zero RNG seed
+
+.nonZeroSeed
 	call ClearSprites
 
 	ld a, BANK(WriteDMACodeToHRAM)

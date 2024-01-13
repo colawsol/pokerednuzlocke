@@ -1,4 +1,10 @@
 MainMenu:
+	ld a, [wNuzlockeFlags]
+	bit 7, a ; check bit for zero RNG seed
+	jr z, .notZero ; jump if not zero RNG seed
+	ldh a, [rDIV] ; load random value
+	ldh [hRandomAdd+1], a ; initialise RNG seed
+.notZero
 ; Check save file
 	call InitOptions
 	xor a
@@ -66,6 +72,14 @@ MainMenu:
 	ld a, [wSaveFileStatus]
 	ld [wMaxMenuItem], a
 	call HandleMenuInput
+	ld c, a ; to preserve a
+	ld a, [wNuzlockeFlags]
+	bit 7, a ; check bit for zero RNG seed
+	jr z, .notZero2 ; jump if not zero RNG seed
+	ldh a, [rDIV] ; load random value
+	ldh [hRandomSub+1], a ; initialise RNG seed
+.notZero2
+	ld a, c ; to restore a
 	bit BIT_B_BUTTON, a
 	jp nz, DisplayTitleScreen ; if so, go back to the title screen
 	ld c, 20

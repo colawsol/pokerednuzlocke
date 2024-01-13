@@ -2288,6 +2288,7 @@ wDayCareMon:: box_struct wDayCareMon
 ; bit 1: threw Ball at encounter
 ; bit 2: received BUDDY
 ; bit 3: adding BUDDY to party/PC
+; bit 7: zero RNG seed
 wNuzlockeFlags:: db
 
 wCurMapLandmark:: db ; for logging encounters
