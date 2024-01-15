@@ -25,6 +25,7 @@
 * Kadabra, Graveler, Machoke and Haunter can be evolved with the Trade Stone, a new item made available in the Celadon Mart.
 * Struggle has been given its own type, allowing for neutral damage against all other types.
 * The random number generator has been improved, removing constraints on DV combinations for wild Pokémon.
+* A Pokémon's DVs are viewable in an additional Stats page.
 
 ## To Do
 
