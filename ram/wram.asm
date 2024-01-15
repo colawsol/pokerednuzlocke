@@ -1100,6 +1100,11 @@ wMaxItemQuantity:: db
 
 ; LoadMonData copies mon data here
 wLoadedMon:: party_struct wLoadedMon
+wLoadedMonAttackDV:: db
+wLoadedMonDefenseDV:: db
+wLoadedMonSpeedDV:: db
+wLoadedMonSpecialDV:: db
+wLoadedMonHPDV:: db
 
 ; bit 0: The space in VRAM that is used to store walk animation tile patterns
 ;        for the player and NPCs is in use for font tile patterns.

@@ -67,6 +67,7 @@ PredefPointers::
 	add_predef GetTileAndCoordsInFrontOfPlayer
 	add_predef StatusScreen
 	add_predef StatusScreen2
+	add_predef StatusScreen3
 	add_predef InternalClockTradeAnim
 	add_predef TrainerEngage
 	add_predef IndexToPokedex

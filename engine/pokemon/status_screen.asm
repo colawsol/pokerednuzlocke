@@ -296,6 +296,93 @@ StatsText:
 	next "SPECIAL@"
 
 StatusScreen2:
+	ldh a, [hTileAnimations] ; taken from StatusScreen3 (start)
+	push af
+	xor a
+	ldh [hTileAnimations], a
+	ldh [hAutoBGTransferEnabled], a ; taken from StatusScreen3 (end)
+	hlcoord 13, 4
+	lb bc, 1, 6
+	call ClearScreenArea ; clear HP fraction
+	hlcoord 7, 10
+	lb bc, 7, 1
+	call ClearScreenArea ; clear stat values
+	hlcoord 1, 9 ; taken from PrintStatsBox (start)
+	ld bc, $19
+	push bc
+	push hl
+	ld de, StatsText
+	call PlaceString
+	hlcoord 4, 10
+	ld de, DVsText
+	call PlaceString
+	hlcoord 14, 4
+	ld de, DVText
+	call PlaceString
+	pop hl
+	pop bc
+	add hl, bc ; taken from PrintStatsBox (end)
+	ld a, [wLoadedMonDVs] ; taken from move_mon (start)
+	swap a
+	and $0F
+	ld [wLoadedMonAttackDV], a ; store Attack DV
+	and $01
+	sla a
+	sla a
+	sla a
+	ld b, a
+	ld a, [wLoadedMonDVs]
+	and $0F
+	ld [wLoadedMonDefenseDV], a ; store Defense DV
+	and $01
+	sla a
+	sla a
+	add b
+	ld b, a
+	ld a, [wLoadedMonDVs+1]
+	swap a
+	and $0F
+	ld [wLoadedMonSpeedDV], a ; store Speed DV
+	and $01
+	sla a
+	add b
+	ld b, a
+	ld a, [wLoadedMonDVs+1]
+	and $0F
+	ld [wLoadedMonSpecialDV], a ; store Special DV
+	and $01
+	add b
+	ld [wLoadedMonHPDV], a ; store HP DV
+	lb bc, 1, 3 ; taken from PrintStatsBox (start)
+	ld de, wLoadedMonAttackDV
+	call PrintStat
+	ld de, wLoadedMonDefenseDV
+	call PrintStat
+	ld de, wLoadedMonSpeedDV
+	call PrintStat
+	ld de, wLoadedMonSpecialDV
+	call PrintStat
+	hlcoord 16, 4
+	ld de, wLoadedMonHPDV
+	call PrintStat ; taken from PrintStatsBox (end)
+	ld a, $1 ; taken from StatusScreen3 (start)
+	ldh [hAutoBGTransferEnabled], a
+	call Delay3
+	call WaitForTextScrollButtonPress ; wait for button
+	pop af
+	ldh [hTileAnimations], a
+	ret ; taken from StatusScreen3 (end)
+
+DVsText:
+	db "DV"
+	next "DV"
+	next "DV"
+	next "DV@"
+
+DVText:
+	db "DV@"
+
+StatusScreen3:
 	ldh a, [hTileAnimations]
 	push af
 	xor a
