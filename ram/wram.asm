@@ -771,6 +771,12 @@ wOptionsBattleAnimCursorX:: db
 wOptionsBattleStyleCursorX:: db
 wOptionsCancelCursorX:: db
 
+NEXTU ; taken from wOptions*CursorX UNION (start)
+wNuzlockeOptionsEnforceNicknamingCursorX:: db
+wNuzlockeOptionsAfterRival1LossCursorX:: db
+wNuzlockeOptionsDuplicatesClauseCursorX:: db
+wNuzlockeOptionsConfirmCursorX:: db ; taken from wOptions*CursorX UNION (end)
+
 NEXTU
 ; tile ID of the badge number being drawn
 wBadgeNumberTile:: db
@@ -1763,6 +1769,18 @@ wRivalName:: ds NAME_LENGTH
 ; 3: Medium
 ; 5: Slow
 wOptions:: db
+
+; bit 0 = enforce nicknaming
+;	0: off
+;	1: on
+; bit 1 = after rival 1 loss
+;	0: heal
+;	1: blackout
+; bits 2-3 = duplicates clause
+;	bit 2 = 0: allow
+;	bit 2 = 1: enforce
+;	bit 3 = 1: off
+wNuzlockeOptions:: db
 
 wObtainedBadges:: flag_array NUM_BADGES
 

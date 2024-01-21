@@ -330,6 +330,7 @@ StartNewGame:
 	res BIT_DEBUG_MODE, [hl]
 	; fallthrough
 StartNewGameDebug:
+	farcall DisplayNuzlockeOptionMenu
 	call OakSpeech
 	ld c, 20
 	call DelayFrames
