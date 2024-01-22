@@ -895,6 +895,9 @@ SwitchAndTeleportEffect:
 	jp nz, PrintText
 	jp ConditionalPrintButItFailed
 .checkEncounter
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .setEncounter ; jump if Duplicates Clause set to Off
 	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
 	ld a, e
 	and a

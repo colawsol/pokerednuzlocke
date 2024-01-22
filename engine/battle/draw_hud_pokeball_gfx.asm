@@ -140,21 +140,30 @@ PlaceEnemyHUDTiles:
 	ld a, [wIsInBattle] ; check if wild battle
 	cp $01
 	jr nz, .noIndicators ; jump if not wild battle
+	ld a, [wNuzlockeFlags]
+	bit 0, a ; check Nuzlocke state
+	jr z, .noIndicators ; jump if Nuzlocke state not set
 	farcall HadEncounter ; check EncounterFlag for corresponding LANDMARK
 	ld a, e
 	and a
 	jr nz, .noIndicators ; jump if EncounterFlag set
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .catchableEncounter ; jump if Duplicates Clause set to Off
 	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
 	ld a, e
 	and a
-	jr z, .newEvolution ; jump if EvolutionFlag clear
+	jr z, .catchableEncounter ; jump if EvolutionFlag clear
+	ld a, [wNuzlockeOptions]
+	bit 2, a ; check Duplicates Clause choice
+	jr nz, .noIndicators ; jump if Duplicates Clause set to Enforce
 	ld a, $C0 ; load filled ball
 	jr .printBall
-.newEvolution
+.catchableEncounter
 	ld a, $C1 ; load empty ball
 .printBall
 	hlcoord 1, 1
-	ld [hl], a ; print ball below Mon name to indicate owned EVOLUTION
+	ld [hl], a ; print ball below Mon name
 .noIndicators
 	hlcoord 1, 2
 	ld de, $1

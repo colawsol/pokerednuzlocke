@@ -429,7 +429,11 @@ OaksLabRivalEndBattleScript:
 	xor a ; SPRITE_FACING_DOWN
 	ldh [hSpriteFacingDirection], a
 	call SetSpriteFacingDirectionAndDelay
+	ld a, [wNuzlockeOptions]
+	bit 1, a ; check After Rival 1 Loss choice
+	jr nz, .blackout ; jump if After Rival 1 Loss set to Blackout
 	predef RivalHeal
+.blackout
 	SetEvent EVENT_BATTLED_RIVAL_IN_OAKS_LAB
 
 	ld a, SCRIPT_OAKSLAB_RIVAL_STARTS_EXIT

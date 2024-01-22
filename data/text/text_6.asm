@@ -230,6 +230,12 @@ _HadEncounterCannotThrowBallText::
 	cont "#MON here!"
 	prompt
 
+_OwnEvolutionCannotThrowBallText::
+	text "You already own a"
+	line "#MON of this"
+	cont "evolution line!"
+	prompt
+
 _BoxFullCannotThrowBallText::
 	text "The #MON BOX"
 	line "is full! Can't"

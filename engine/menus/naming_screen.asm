@@ -14,9 +14,26 @@ AskName:
 	ld a, [wcf91]
 	ld [wd11e], a
 	call GetMonName
-	ld hl, GiveANicknameText ; changed for clarity
+	ld a, [wNuzlockeOptions]
+	bit 0, a ; check Enforce Nicknaming choice
+	jr nz, .enforceNicknamingOn ; jump if Enforce Nicknaming set to On
+	ld hl, DoYouWantToNicknameText
+	call PrintText
+	hlcoord 14, 7
+	lb bc, 8, 15
+	ld a, TWO_OPTION_MENU
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	pop hl
+	ld a, [wCurrentMenuItem]
+	and a
+	jr nz, .declinedNickname
+	jr .nickname
+.enforceNicknamingOn
+	ld hl, GiveANicknameText
 	call PrintText
 	pop hl
+.nickname
 	ld a, [wUpdateSpritesEnabled]
 	push af
 	xor a
@@ -49,6 +66,10 @@ AskName:
 	ld hl, BuddyNameString ; BUDDY
 	ld bc, NAME_LENGTH
 	jp CopyData
+
+DoYouWantToNicknameText:
+	text_far _DoYouWantToNicknameText
+	text_end
 
 GiveANicknameText: ; data/text/text_2.asm
 	text_far _GiveANicknameText
@@ -208,13 +229,16 @@ DisplayNamingScreen:
 	ret
 
 .pressedStart
+	ld a, [wNuzlockeOptions]
+	bit 0, a ; check Enforce Nicknaming choice
+	jr z, .continue ; jump if Enforce Nicknaming set to Off
 	ld a, [wCurMap]
 	cp NAME_RATERS_HOUSE ; check if using Name Rater
-	jr z, .usingNameRater ; jump if using Name Rater
+	jr z, .continue ; jump if using Name Rater
 	ld a, [wStringBuffer]
 	cp "@" ; check if nickname entered
 	jp z, .namingLoop ; jump if no nickname entered
-.usingNameRater
+.continue
 	ld a, 1
 	ld [wNamingScreenSubmitName], a
 	ret

@@ -262,6 +262,9 @@ EnemyRan:
 	ld hl, EnemyRanText
 	jr .printText
 .checkSafariEncounter
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .setEncounter ; jump if Duplicates Clause set to Off
 	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
 	ld a, e
 	and a
@@ -804,6 +807,9 @@ FaintEnemyPokemon:
 	call WaitForSoundToFinish
 	jr .sfxplayed
 .wild_win
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .setEncounter ; jump if Duplicates Clause set to Off
 	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
 	ld a, e
 	and a
@@ -1610,6 +1616,9 @@ TryRunningFromBattle:
 	and a ; reset carry
 	ret
 .checkEncounter ; prevents encounter-setting routine from being called if running from ghost/ghost Marowak
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .setEncounter ; jump if Duplicates Clause set to Off
 	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
 	ld a, e
 	and a
