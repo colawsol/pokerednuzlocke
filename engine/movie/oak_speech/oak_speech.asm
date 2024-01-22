@@ -3,6 +3,8 @@ PrepareOakSpeech:
 	push af
 	ld a, [wOptions]
 	push af
+	ld a, [wNuzlockeOptions]
+	push af ; to preserve Nuzlocke options
 	; Retrieve BIT_DEBUG_MODE set in DebugMenu for StartNewGameDebug.
 	; BUG: StartNewGame carries over bit 5 from previous save files,
 	; which causes CheckForceBikeOrSurf to not return.
@@ -20,6 +22,8 @@ PrepareOakSpeech:
 	call FillMemory
 	pop af
 	ld [wd732], a
+	pop af ; to restore Nuzlocke options
+	ld [wNuzlockeOptions], a
 	pop af
 	ld [wOptions], a
 	pop af

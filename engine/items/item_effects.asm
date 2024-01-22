@@ -121,7 +121,17 @@ ItemUseBall:
 	ld a, e
 	and a
 	jp nz, HadEncounterCannotThrowBall ; jump if EncounterFlag set
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .checkParty ; check if Duplicates Clause set to Off
+	bit 2, a ; check Duplicates Clause choice
+	jr z, .checkParty ; jump if Duplicates Clause set to Allow
+	farcall OwnEvolution ; check EvolutionFlag for corresponding Evolution
+	ld a, e
+	and a
+	jp nz, OwnEvolutionCannotThrowBall ; jump if EvolutionFlag set
 
+.checkParty
 	ld a, [wPartyCount] ; is party full?
 	cp PARTY_LENGTH
 	jr nz, .canUseBall
@@ -1628,6 +1638,9 @@ ItemUsePokedoll:
 	ld a, [wCurOpponent]
 	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
 	jr z, .noSetEncounter ; jump if ghost Marowak
+	ld a, [wNuzlockeOptions]
+	bit 3, a ; check Duplicates Clause choice
+	jr nz, .setEncounter ; jump if Duplicates Clause set to Off
 	farcall OwnEvolution ; check EvolutionFlag for corresponding EVOLUTION
 	ld a, e
 	and a
@@ -2343,6 +2356,10 @@ HadEncounterCannotThrowBall:
 	ld hl, HadEncounterCannotThrowBallText
 	jr ItemUseFailed
 
+OwnEvolutionCannotThrowBall:
+	ld hl, OwnEvolutionCannotThrowBallText
+	jr ItemUseFailed
+
 BoxFullCannotThrowBall:
 	ld hl, BoxFullCannotThrowBallText
 	jr ItemUseFailed
@@ -2385,6 +2402,10 @@ NoSurfingHereText:
 
 HadEncounterCannotThrowBallText: ; data/text/text_6.asm
 	text_far _HadEncounterCannotThrowBallText
+	text_end
+
+OwnEvolutionCannotThrowBallText: ; data/text/text_6.asm
+	text_far _OwnEvolutionCannotThrowBallText
 	text_end
 
 BoxFullCannotThrowBallText:
