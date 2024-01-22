@@ -140,6 +140,11 @@ PlaceEnemyHUDTiles:
 	ld a, [wIsInBattle] ; check if wild battle
 	cp $01
 	jr nz, .noIndicators ; jump if not wild battle
+	callfar IsGhostBattle ; check if current opponent is ghost
+	jr z, .noIndicators ; jump if ghost
+	ld a, [wCurOpponent]
+	cp RESTLESS_SOUL ; check if current opponent is ghost Marowak
+	jr z, .noIndicators ; jump if ghost Marowak
 	ld a, [wNuzlockeFlags]
 	bit 0, a ; check Nuzlocke state
 	jr z, .noIndicators ; jump if Nuzlocke state not set
