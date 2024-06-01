@@ -2060,8 +2060,17 @@ LoadMapHeader::
 	ld [wSouthConnectedMap], a
 	ld [wWestConnectedMap], a
 	ld [wEastConnectedMap], a
-.storeLandmark ; stores LANDMARK constant from map header
+.checkLandmark ; checks LANDMARK constant from map header
+	ld a, [wNuzlockeOptions]
+	bit 4, a ; check Encounter Maps choice
+	jr nz, .encounterMapsLink; jump if Encounter Maps set to Link
 	ld a, [hli]
+	inc hl
+	jr .storeLandmark
+.encounterMapsLink
+	inc hl
+	ld a, [hli]
+.storeLandmark
 	ld [wCurMapLandmark], a
 ; copy connection data (if any) to WRAM
 	ld a, [wCurMapConnections]
