@@ -1,5 +1,12 @@
-DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
-	hlcoord 0, 0
+DisplayNuzlockeOptionMenus:
+	ld a, 1
+	ld [wNuzlockeOptionsEnforceNicknamingCursorX], a
+	ld [wNuzlockeOptionsAfterRival1LossCursorX], a
+	ld [wNuzlockeOptionsDuplicatesClauseCursorX], a
+	ld [wNuzlockeOptionsEncounterMapsCursorX], a
+DisplayNuzlockeOptionMenu1:
+	call ClearScreen
+	hlcoord 0, 0 ; taken from DisplayOptionMenu (start)
 	ld b, 3
 	ld c, 18
 	call TextBoxBorder
@@ -21,19 +28,23 @@ DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
 	ld de, DuplicatesClauseOptionText
 	call PlaceString
 	hlcoord 2, 16
-	ld de, NuzlockeOptionMenuConfirmText
+	ld de, NuzlockeOptionMenuBackText
+	call PlaceString
+	hlcoord 11, 16
+	ld de, NuzlockeOptionMenuNextText
 	call PlaceString
 	xor a
 	ld [wCurrentMenuItem], a
 	ld [wLastMenuItem], a
 	inc a
 	ld [wLetterPrintingDelayFlags], a
-	ld [wNuzlockeOptionsConfirmCursorX], a
+	ld [wNuzlockeOptionsBackNextConfirmCursorX], a
 	ld a, 3
 	ld [wTopMenuItemY], a
-	ld a, 1
-	call SetNuzlockeOptionMenuCursorPositions
+	call SetNuzlockeOptionMenu1CursorPositions
+	ld a, [wNuzlockeOptionsEnforceNicknamingCursorX]
 	ld [wTopMenuItemX], a
+	ld a, 1
 	ldh [hAutoBGTransferEnabled], a
 	call Delay3
 .loop
@@ -43,17 +54,28 @@ DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
 	ld b, a
-	and A_BUTTON | D_RIGHT | D_LEFT | D_UP | D_DOWN
+	and A_BUTTON | B_BUTTON | D_RIGHT | D_LEFT | D_UP | D_DOWN
 	jr z, .getJoypadStateLoop
+	bit BIT_B_BUTTON, b
+	jr nz, .pressedB
 	bit BIT_A_BUTTON, b
 	jr z, .checkDirectionKeys
 	ld a, [wTopMenuItemY]
-	cp 16 ; is the cursor on Confirm?
+	cp 16 ; is the cursor on Back/Next?
 	jr nz, .loop
-.exitMenu
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX]
+	dec a
+	push af ; to preserve af
 	ld a, SFX_PRESS_AB
 	call PlaySound
+	pop af ; to restore af
+	jp nz, DisplayNuzlockeOptionMenu2
+.exitMenu
 	ret
+.pressedB
+	ld a, 1
+	ld [wNuzlockeOptionsBackNextConfirmCursorX], a
+	jr .exitMenu
 .eraseOldMenuCursor
 	ld [wTopMenuItemX], a
 	call EraseMenuCursor
@@ -68,8 +90,8 @@ DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
 	jr z, .cursorInAfterRival1Loss
 	cp 13 ; cursor in Duplicates Clause?
 	jr z, .cursorInDuplicatesClause
-	cp 16 ; cursor on Confirm?
-	jr z, .loop
+	cp 16 ; cursor on Back/Next?
+	jp z, .cursorOnBackNext
 .cursorInEnforceNicknaming
 	ld a, [wNuzlockeOptionsEnforceNicknamingCursorX] ; Enforce Nicknaming cursor X coordinate
 	xor $0B
@@ -82,13 +104,13 @@ DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
 	jr z, .updateMenuVariables
 	ld b, 5
 	cp 3
-	inc hl
+	ld hl, wNuzlockeOptionsAfterRival1LossCursorX
 	jr z, .updateMenuVariables
 	cp 8
-	inc hl
+	ld hl, wNuzlockeOptionsDuplicatesClauseCursorX
 	jr z, .updateMenuVariables
 	ld b, 3
-	inc hl
+	ld hl, wNuzlockeOptionsBackNextConfirmCursorX
 	jr .updateMenuVariables
 .upPressed
 	cp 8
@@ -96,14 +118,14 @@ DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
 	ld hl, wNuzlockeOptionsEnforceNicknamingCursorX
 	jr z, .updateMenuVariables
 	cp 13
-	inc hl
+	ld hl, wNuzlockeOptionsAfterRival1LossCursorX
 	jr z, .updateMenuVariables
 	cp 16
 	ld b, -3
-	inc hl
+	ld hl, wNuzlockeOptionsDuplicatesClauseCursorX
 	jr z, .updateMenuVariables
 	ld b, 13
-	inc hl
+	ld hl, wNuzlockeOptionsBackNextConfirmCursorX
 .updateMenuVariables
 	add b
 	ld [wTopMenuItemY], a
@@ -144,6 +166,114 @@ DisplayNuzlockeOptionMenu: ; taken from DisplayOptionMenu (start)
 .updateDuplicatesClauseXCoord
 	ld [wNuzlockeOptionsDuplicatesClauseCursorX], a ; Duplicates Clause cursor X coordinate
 	jp .eraseOldMenuCursor
+.cursorOnBackNext
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX] ; Back/Next cursor X coordinate
+	xor $0B
+	ld [wNuzlockeOptionsBackNextConfirmCursorX], a
+	jp .eraseOldMenuCursor ; taken from DisplayOptionMenu (end)
+
+DisplayNuzlockeOptionMenu2:
+	call ClearScreen
+	hlcoord 0, 0 ; taken from DisplayOptionMenu (start)
+	ld b, 3
+	ld c, 18
+	call TextBoxBorder
+	hlcoord 1, 1
+	ld de, EncounterMapsOptionText
+	call PlaceString
+	hlcoord 2, 16
+	ld de, NuzlockeOptionMenuBackText
+	call PlaceString
+	hlcoord 11, 16
+	ld de, NuzlockeOptionMenuConfirmText
+	call PlaceString
+	xor a
+	ld [wCurrentMenuItem], a
+	ld [wLastMenuItem], a
+	inc a
+	ld [wLetterPrintingDelayFlags], a
+	ld [wNuzlockeOptionsBackNextConfirmCursorX], a
+	ld a, 3
+	ld [wTopMenuItemY], a
+	call SetNuzlockeOptionMenu2CursorPositions
+	ld a, [wNuzlockeOptionsEncounterMapsCursorX]
+	ld [wTopMenuItemX], a
+	ld a, 1
+	ldh [hAutoBGTransferEnabled], a
+	call Delay3
+.loop
+	call PlaceMenuCursor
+	call SetNuzlockeOptionsFromCursorPositions
+.getJoypadStateLoop
+	call JoypadLowSensitivity
+	ldh a, [hJoy5]
+	ld b, a
+	and A_BUTTON | B_BUTTON | D_RIGHT | D_LEFT | D_UP | D_DOWN
+	jr z, .getJoypadStateLoop
+	bit BIT_B_BUTTON, b
+	jr nz, .pressedB
+	bit BIT_A_BUTTON, b
+	jr z, .checkDirectionKeys
+	ld a, [wTopMenuItemY]
+	cp 16 ; is the cursor on Back/Confirm?
+	jr nz, .loop
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX]
+	dec a
+	push af ; to preserve af
+	ld a, SFX_PRESS_AB
+	call PlaySound
+	pop af ; to restore af
+	jp z, DisplayNuzlockeOptionMenu1
+.exitMenu ; no longer used for jumps but left for clarity
+	ret
+.pressedB
+	ld a, 1
+	ld [wNuzlockeOptionsBackNextConfirmCursorX], a
+	jp DisplayNuzlockeOptionMenu1
+.eraseOldMenuCursor
+	ld [wTopMenuItemX], a
+	call EraseMenuCursor
+	jr .loop
+.checkDirectionKeys
+	ld a, [wTopMenuItemY]
+	bit BIT_D_DOWN, b
+	jr nz, .downPressed
+	bit BIT_D_UP, b
+	jr nz, .upPressed
+	cp 16 ; cursor on Back?
+	jp z, .cursorInBackConfirm
+.cursorInEncounterMaps
+	ld a, [wNuzlockeOptionsEncounterMapsCursorX] ; Encounter Maps cursor X coordinate
+	xor $0B
+	ld [wNuzlockeOptionsEncounterMapsCursorX], a
+	jr .eraseOldMenuCursor
+.downPressed
+	cp 16
+	ld b, -13
+	ld hl, wNuzlockeOptionsEncounterMapsCursorX
+	jr z, .updateMenuVariables
+	ld b, 13
+	ld hl, wNuzlockeOptionsBackNextConfirmCursorX
+	jr .updateMenuVariables
+.upPressed
+	cp 16
+	ld b, -13
+	ld hl, wNuzlockeOptionsEncounterMapsCursorX
+	jr z, .updateMenuVariables
+	ld b, 13
+	ld hl, wNuzlockeOptionsBackNextConfirmCursorX
+.updateMenuVariables
+	add b
+	ld [wTopMenuItemY], a
+	ld a, [hl]
+	ld [wTopMenuItemX], a
+	call PlaceUnfilledArrowMenuCursor
+	jp .loop
+.cursorInBackConfirm
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX] ; Back/Next cursor X coordinate
+	xor $0B
+	ld [wNuzlockeOptionsBackNextConfirmCursorX], a
+	jp .eraseOldMenuCursor
 
 EnforceNicknamingOptionText:
 	db   "ENFORCE NICKNAMING"
@@ -157,8 +287,18 @@ DuplicatesClauseOptionText:
 	db   "DUPLICATES CLAUSE"
 	next " ALLOW ENFORCE OFF@"
 
+EncounterMapsOptionText:
+	db   "ENCOUNTER MAPS"
+	next " SPLIT    LINK@"
+
+NuzlockeOptionMenuBackText:
+	db "BACK@"
+
+NuzlockeOptionMenuNextText:
+	db "NEXT@"
+
 NuzlockeOptionMenuConfirmText:
-	db "CONFIRM@"
+	db "CONFIRM@" ; taken from DisplayOptionMenu (end)
 
 ; sets the NuzlockeOptions variable according to the current placement of the menu cursors in the Nuzlocke options menu
 SetNuzlockeOptionsFromCursorPositions: ; taken from SetOptionsFromCursorPositions (start)
@@ -189,30 +329,62 @@ SetNuzlockeOptionsFromCursorPositions: ; taken from SetOptionsFromCursorPosition
 	jr z, .duplicatesClauseEnforce
 .duplicatesClauseOff
 	set 3, d
-	jr .storeNuzlockeOptions
+	jr .checkEncounterMaps
 .duplicatesClauseAllow
 	res 2, d
-	jr .storeNuzlockeOptions
+	jr .checkEncounterMaps
 .duplicatesClauseEnforce
 	res 3, d
 	set 2, d
+.checkEncounterMaps
+	ld a, [wNuzlockeOptionsEncounterMapsCursorX] ; Encounter Maps cursor X coordinate
+	dec a
+	jr z, .encounterMapsLink
+.encounterMapsSplit
+	set 4, d
+	jr .storeNuzlockeOptions
+.encounterMapsLink
+	res 4, d
 .storeNuzlockeOptions
 	ld a, d
 	ld [wNuzlockeOptions], a
 	ret ; taken from SetOptionsFromCursorPositions (end)
 
 ; places menu cursors in the first positions within the Nuzlocke options menu
-SetNuzlockeOptionMenuCursorPositions: ; taken from SetCursorPositionsFromOptions (start)
-	ld [wNuzlockeOptionsEnforceNicknamingCursorX], a
-	ld [wNuzlockeOptionsAfterRival1LossCursorX], a
-	ld [wNuzlockeOptionsDuplicatesClauseCursorX], a
-	hlcoord 1, 3
+SetNuzlockeOptionMenu1CursorPositions: ; taken from SetCursorPositionsFromOptions (start)
+	ld a, [wNuzlockeOptionsEnforceNicknamingCursorX]
+	hlcoord 0, 3
+	call .placeUnfilledRightArrow
+	ld a, [wNuzlockeOptionsAfterRival1LossCursorX]
+	hlcoord 0, 8
+	call .placeUnfilledRightArrow
+	ld a, [wNuzlockeOptionsDuplicatesClauseCursorX]
+	hlcoord 0, 13
+	call .placeUnfilledRightArrow
+; cursor in front of Back
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX]
+	hlcoord 0, 16
+	call .placeUnfilledRightArrow
+	ret
+.placeUnfilledRightArrow
+	ld e, a
+	ld d, 0
+	add hl, de
 	ld [hl], "▷"
-	hlcoord 1, 8
-	ld [hl], "▷"
-	hlcoord 1, 13
-	ld [hl], "▷"
-; cursor in front of Confirm
-	hlcoord 1, 16
+	ret ; taken from SetCursorPositionsFromOptions (end)
+
+SetNuzlockeOptionMenu2CursorPositions: ; taken from SetCursorPositionsFromOptions (start)
+	ld a, [wNuzlockeOptionsEncounterMapsCursorX]
+	hlcoord 0, 3
+	call .placeUnfilledRightArrow
+; cursor in front of Back
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX]
+	hlcoord 0, 16
+	call .placeUnfilledRightArrow
+	ret
+.placeUnfilledRightArrow
+	ld e, a
+	ld d, 0
+	add hl, de
 	ld [hl], "▷"
 	ret ; taken from SetCursorPositionsFromOptions (end)
