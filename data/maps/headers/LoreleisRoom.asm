@@ -1,2 +1,2 @@
-	map_header LoreleisRoom, LORELEIS_ROOM, GYM, 0, LANDMARK_INDIGO_PLATEAU
+	map_header LoreleisRoom, LORELEIS_ROOM, GYM, 0, LANDMARK_LORELEIS_ROOM, LANDMARK_INDIGO_PLATEAU
 	end_map_header

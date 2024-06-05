@@ -1,3 +1,3 @@
-	map_header IndigoPlateau, INDIGO_PLATEAU, PLATEAU, SOUTH, LANDMARK_INDIGO_PLATEAU
+	map_header IndigoPlateau, INDIGO_PLATEAU, PLATEAU, SOUTH, LANDMARK_INDIGO_PLATEAU, LANDMARK_INDIGO_PLATEAU
 	connection south, Route23, ROUTE_23, 0
 	end_map_header

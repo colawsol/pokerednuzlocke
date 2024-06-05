@@ -97,10 +97,16 @@ MainMenu:
 	and a
 	jr z, .choseContinue
 	cp 1
-	jp z, StartNewGame
+	jp z, .choseNewGame
 	call DisplayOptionMenu
 	ld a, 1
 	ld [wOptionsInitialized], a
+	jp .mainMenuLoop
+.choseNewGame
+	farcall DisplayNuzlockeOptionMenus
+	ld a, [wNuzlockeOptionsBackNextConfirmCursorX]
+	dec a
+	jp nz, StartNewGame
 	jp .mainMenuLoop
 .choseContinue
 	call DisplayContinueGameInfo
@@ -330,7 +336,6 @@ StartNewGame:
 	res BIT_DEBUG_MODE, [hl]
 	; fallthrough
 StartNewGameDebug:
-	farcall DisplayNuzlockeOptionMenu
 	call OakSpeech
 	ld c, 20
 	call DelayFrames

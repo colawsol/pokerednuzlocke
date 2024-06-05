@@ -775,7 +775,8 @@ NEXTU ; taken from wOptions*CursorX UNION (start)
 wNuzlockeOptionsEnforceNicknamingCursorX:: db
 wNuzlockeOptionsAfterRival1LossCursorX:: db
 wNuzlockeOptionsDuplicatesClauseCursorX:: db
-wNuzlockeOptionsConfirmCursorX:: db ; taken from wOptions*CursorX UNION (end)
+wNuzlockeOptionsEncounterMapsCursorX:: db
+wNuzlockeOptionsBackNextConfirmCursorX:: db ; taken from wOptions*CursorX UNION (end)
 
 NEXTU
 ; tile ID of the badge number being drawn
@@ -1780,6 +1781,9 @@ wOptions:: db
 ;	bit 2 = 0: allow
 ;	bit 2 = 1: enforce
 ;	bit 3 = 1: off
+; bit 4 = encounter maps
+;	0: split
+;	1: link
 wNuzlockeOptions:: db
 
 wObtainedBadges:: flag_array NUM_BADGES
@@ -1854,7 +1858,7 @@ wWarpEntries:: ds 32 * 4 ; Y, X, warp ID, map ID
 ; if $ff, the player's coordinates are not updated when entering the map
 wDestinationWarpID:: db
 
-	ds 128
+	ds 126
 
 ; number of signs in the current map (up to 16)
 wNumSigns:: db
