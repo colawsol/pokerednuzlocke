@@ -31,7 +31,7 @@ IF DEF(_DEBUG)
 	ld a, TEXT_DELAY_MEDIUM
 	ld [wOptions], a
 
-	ld a, A_BUTTON | B_BUTTON | START
+	ld a, PAD_A | PAD_B | PAD_START
 	ld [wMenuWatchedKeys], a
 	xor a
 	ld [wMenuJoypadPollCount], a
@@ -47,7 +47,7 @@ IF DEF(_DEBUG)
 	ld [wMenuWatchMovingOutOfBounds], a
 
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jp nz, DisplayTitleScreen
 
 	ld a, [wCurrentMenuItem]
@@ -55,7 +55,7 @@ IF DEF(_DEBUG)
 	jp z, TestBattle
 
 	; DEBUG
-	ld hl, wd732
+	ld hl, wStatusFlags6
 	set BIT_DEBUG_MODE, [hl]
 	jp StartNewGameDebug
 
@@ -80,7 +80,7 @@ TestBattle: ; unreferenced except in _DEBUG
 	ld a, 1 << BIT_EARTHBADGE
 	ld [wObtainedBadges], a
 
-	ld hl, wFlags_D733
+	ld hl, wStatusFlags7
 	set BIT_TEST_BATTLE, [hl]
 
 	; wNumBagItems and wBagItems are not initialized here,
@@ -98,9 +98,9 @@ TestBattle: ; unreferenced except in _DEBUG
 
 	; Give the player a level 20 Rhydon.
 	ld a, RHYDON
-	ld [wcf91], a
+	ld [wCurPartySpecies], a
 	ld a, 20
-	ld [wCurEnemyLVL], a
+	ld [wCurEnemyLevel], a
 	xor a
 	ld [wMonDataLocation], a
 	ld [wCurMap], a

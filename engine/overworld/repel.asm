@@ -26,7 +26,7 @@ _DisplayRepelWoreOffText::
 .gotRepel
 	push bc ; to preserve item ID
 	ld a, b
-	ld [wd11e], a
+	ld [wNamedObjectIndex], a
 	call GetItemName
 	call CopyToStringBuffer
 	ld hl, RepelUseAnotherText
@@ -37,7 +37,7 @@ _DisplayRepelWoreOffText::
 	jr nz, .choseNo
 	pop bc ; to restore item ID
 	ld a, b
-	ld [wcf91], a
+	ld [wCurItem], a
 	ld [wPseudoItemID], a
 ; find where REPEL is in bag
 	ld hl, wBagItems
