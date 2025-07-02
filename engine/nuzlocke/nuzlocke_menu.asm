@@ -54,11 +54,11 @@ DisplayNuzlockeOptionMenu1:
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
 	ld b, a
-	and A_BUTTON | B_BUTTON | D_RIGHT | D_LEFT | D_UP | D_DOWN
+	and PAD_A | PAD_B | PAD_RIGHT | PAD_LEFT | PAD_UP | PAD_DOWN
 	jr z, .getJoypadStateLoop
-	bit BIT_B_BUTTON, b
+	bit B_PAD_B, b
 	jr nz, .pressedB
-	bit BIT_A_BUTTON, b
+	bit B_PAD_A, b
 	jr z, .checkDirectionKeys
 	ld a, [wTopMenuItemY]
 	cp 16 ; is the cursor on Back/Next?
@@ -82,9 +82,9 @@ DisplayNuzlockeOptionMenu1:
 	jr .loop
 .checkDirectionKeys
 	ld a, [wTopMenuItemY]
-	bit BIT_D_DOWN, b
+	bit B_PAD_DOWN, b
 	jr nz, .downPressed
-	bit BIT_D_UP, b
+	bit B_PAD_UP, b
 	jr nz, .upPressed
 	cp 8 ; cursor in After Rival 1 Loss section?
 	jr z, .cursorInAfterRival1Loss
@@ -139,7 +139,7 @@ DisplayNuzlockeOptionMenu1:
 	ld [wNuzlockeOptionsAfterRival1LossCursorX], a
 	jr .eraseOldMenuCursor
 .cursorInDuplicatesClause
-	bit BIT_D_LEFT, b
+	bit B_PAD_LEFT, b
 	jr nz, .pressedLeftInDuplicatesClause
 	jr .pressedRightInDuplicatesClause
 .pressedLeftInDuplicatesClause
@@ -208,11 +208,11 @@ DisplayNuzlockeOptionMenu2:
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
 	ld b, a
-	and A_BUTTON | B_BUTTON | D_RIGHT | D_LEFT | D_UP | D_DOWN
+	and PAD_A | PAD_B | PAD_RIGHT | PAD_LEFT | PAD_UP | PAD_DOWN
 	jr z, .getJoypadStateLoop
-	bit BIT_B_BUTTON, b
+	bit B_PAD_B, b
 	jr nz, .pressedB
-	bit BIT_A_BUTTON, b
+	bit B_PAD_A, b
 	jr z, .checkDirectionKeys
 	ld a, [wTopMenuItemY]
 	cp 16 ; is the cursor on Back/Confirm?
@@ -236,9 +236,9 @@ DisplayNuzlockeOptionMenu2:
 	jr .loop
 .checkDirectionKeys
 	ld a, [wTopMenuItemY]
-	bit BIT_D_DOWN, b
+	bit B_PAD_DOWN, b
 	jr nz, .downPressed
-	bit BIT_D_UP, b
+	bit B_PAD_UP, b
 	jr nz, .upPressed
 	cp 16 ; cursor on Back?
 	jp z, .cursorInBackConfirm

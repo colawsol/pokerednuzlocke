@@ -46,8 +46,8 @@ BillsHousePokemonWalkToMachineScript:
 	db -1 ; end
 
 BillsHousePokemonEntersMachineScript:
-	ld a, [wd730]
-	bit 0, a
+	ld a, [wStatusFlags5]
+	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
 	ld a, HS_BILL_POKEMON
 	ld [wMissableObjectIndex], a
@@ -62,7 +62,7 @@ BillsHousePokemonEntersMachineScript:
 BillsHouseBillExitsMachineScript:
 	CheckEvent EVENT_USED_CELL_SEPARATOR_ON_BILL
 	ret z
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
+	ld a, PAD_CTRL_PAD
 	ld [wJoyIgnore], a
 	ld a, BILLSHOUSE_BILL1
 	ld [wSpriteIndex], a
@@ -97,8 +97,8 @@ BillExitMachineMovement:
 	db -1 ; end
 
 BillsHouseCleanupScript:
-	ld a, [wd730]
-	bit 0, a
+	ld a, [wStatusFlags5]
+	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
 	xor a
 	ld [wJoyIgnore], a
@@ -110,7 +110,7 @@ BillsHouseCleanupScript:
 
 BillsHousePCScript:
 	ld a, TEXT_BILLSHOUSE_ACTIVATE_PC
-	ldh [hSpriteIndexOrTextID], a
+	ldh [hTextID], a
 	call DisplayTextID
 	ld a, SCRIPT_BILLSHOUSE_DEFAULT
 	ld [wBillsHouseCurScript], a

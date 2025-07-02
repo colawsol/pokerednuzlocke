@@ -62,7 +62,7 @@ DaycareGentlemanText:
 	xor a
 	ld [wRemoveMonFromBox], a
 	call RemovePokemon
-	ld a, [wcf91]
+	ld a, [wCurPartySpecies]
 	call PlayCry
 	ld hl, .ComeSeeMeInAWhileText
 	jp .done
@@ -180,7 +180,7 @@ DaycareGentlemanText:
 	ld [wMoveMonType], a
 	call MoveMon
 	ld a, [wDayCareMonSpecies]
-	ld [wcf91], a
+	ld [wCurPartySpecies], a
 	ld a, [wPartyCount]
 	dec a
 	push af
@@ -209,7 +209,7 @@ DaycareGentlemanText:
 	ld a, [hl]
 	ld [de], a
 
-	ld a, [wcf91]
+	ld a, [wCurPartySpecies]
 	call PlayCry
 	ld hl, .GotMonBackText
 	jr .done

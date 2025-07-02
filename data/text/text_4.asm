@@ -4,7 +4,7 @@ _PokemartGreetingText::
 	done
 
 _PokemonFaintedText::
-	text_ram wcd6d
+	text_ram wNameBuffer
 	text_start
 	line "fainted!"
 	done
@@ -151,7 +151,7 @@ _ForgotAndText::
 	text_ram wLearnMoveMonName
 	text " forgot"
 	line "@"
-	text_ram wcd6d
+	text_ram wNameBuffer
 	text "!"
 
 	para "And..."
@@ -222,7 +222,7 @@ IF DEF(_RED_VC) || DEF(_BLUE_VC)
 	text "Please come again!"
 	done
 	text_start
-	text "sed because of"
+	db   "osed because of"
 	cont "inactivity."
 ELSE
 	text "The link has been"

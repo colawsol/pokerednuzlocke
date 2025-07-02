@@ -80,13 +80,13 @@ DrawFrameBlock:
 ; toggle horizontal and vertical flip
 	ld a, [hli] ; flags
 	and a
-	ld b, OAM_VFLIP | OAM_HFLIP
+	ld b, OAM_YFLIP | OAM_XFLIP
 	jr z, .storeFlags1
-	cp OAM_HFLIP
-	ld b, OAM_VFLIP
+	cp OAM_XFLIP
+	ld b, OAM_YFLIP
 	jr z, .storeFlags1
-	cp OAM_VFLIP
-	ld b, OAM_HFLIP
+	cp OAM_YFLIP
+	ld b, OAM_XFLIP
 	jr z, .storeFlags1
 	ld b, 0
 .storeFlags1
@@ -114,13 +114,13 @@ DrawFrameBlock:
 	ld [de], a ; store tile ID
 	inc de
 	ld a, [hli]
-	bit 5, a ; is horizontal flip enabled?
+	bit B_OAM_XFLIP, a
 	jr nz, .disableHorizontalFlip
 .enableHorizontalFlip
-	set 5, a
+	set B_OAM_XFLIP, a
 	jr .storeFlags2
 .disableHorizontalFlip
-	res 5, a
+	res B_OAM_XFLIP, a
 .storeFlags2
 	ld [de], a
 	inc de
@@ -439,7 +439,7 @@ MoveAnimation:
 	call WaitForSoundToFinish
 	xor a
 	ld [wSubAnimSubEntryAddr], a
-	ld [wUnusedD09B], a
+	ld [wUnusedMoveAnimByte], a
 	ld [wSubAnimTransform], a
 	dec a ; NO_MOVE - 1
 	ld [wAnimSoundID], a
@@ -683,7 +683,7 @@ DoSpecialEffectByAnimationId:
 INCLUDE "data/battle_anims/special_effects.asm"
 
 DoBallTossSpecialEffects:
-	ld a, [wcf91]
+	ld a, [wCurItem]
 	cp ULTRA_BALL + 1 ; is it a Master Ball or Ultra Ball?
 	jr nc, .skipFlashingEffect
 .flashingEffect ; do a flashing effect if it's Master Ball or Ultra Ball
@@ -701,7 +701,7 @@ DoBallTossSpecialEffects:
 	ld a, [wIsInBattle]
 	cp 2 ; is it a trainer battle?
 	jr z, .isTrainerBattle
-	ld a, [wd11e]
+	ld a, [wPokeBallAnimData]
 	cp $10 ; is the enemy pokemon the Ghost Marowak?
 	ret nz
 ; if the enemy pokemon is the Ghost Marowak, make it dodge during the last 3 frames
@@ -726,7 +726,7 @@ DoBallTossSpecialEffects:
 	dec b
 	jr nz, .loop
 	ld a, %00001000
-	ldh [rNR10], a ; Channel 1 sweep register
+	ldh [rAUD1SWEEP], a ; Channel 1 sweep register
 	ret
 .isTrainerBattle ; if it's a trainer battle, shorten the animation by one frame
 	ld a, [wSubAnimCounter]
@@ -1125,12 +1125,12 @@ AnimationWaterDropletsEverywhere:
 	ld a, 16
 	ld [wBaseCoordY], a
 	ld a, 0
-	ld [wUnusedD08A], a
+	ld [wUnusedWaterDropletsByte], a
 	call _AnimationWaterDroplets
 	ld a, 24
 	ld [wBaseCoordY], a
 	ld a, 32
-	ld [wUnusedD08A], a
+	ld [wUnusedWaterDropletsByte], a
 	call _AnimationWaterDroplets
 	dec d
 	jr nz, .loop
@@ -1743,8 +1743,7 @@ AnimationMinimizeMon:
 
 MinimizedMonSprite:
 ; 8x5 partial tile graphic
-pusho
-opt b.X ; . = 0, X = 1
+pusho b.X ; . = 0, X = 1
 	db %...XX...
 	db %..XXXX..
 	db %.XXXXXX.
@@ -1936,7 +1935,7 @@ AnimationSubstitute:
 ; Changes the pokemon's sprite to the mini sprite
 	ld hl, wTempPic
 	xor a
-	ld bc, $310
+	ld bc, 7 * 7 tiles
 	call FillMemory
 	ldh a, [hWhoseTurn]
 	and a
@@ -2031,8 +2030,8 @@ ChangeMonPic:
 	and a
 	jr z, .playerTurn
 	ld a, [wChangeMonPicEnemyTurnSpecies]
-	ld [wcf91], a
-	ld [wd0b5], a
+	ld [wCurPartySpecies], a
+	ld [wCurSpecies], a
 	xor a
 	ld [wSpriteFlipped], a
 	call GetMonHeader
@@ -2044,7 +2043,7 @@ ChangeMonPic:
 	push af
 	ld a, [wChangeMonPicPlayerTurnSpecies]
 	ld [wBattleMonSpecies2], a
-	ld [wd0b5], a
+	ld [wCurSpecies], a
 	call GetMonHeader
 	predef LoadMonBackPic
 	xor a ; TILEMAP_MON_PIC
@@ -2121,7 +2120,7 @@ GetMonSpriteTileMapPointerFromRowCount:
 	ldh a, [hWhoseTurn]
 	and a
 	jr nz, .enemyTurn
-	ld a, 20 * 5 + 1
+	ld a, 5 * SCREEN_WIDTH + 1
 	jr .next
 .enemyTurn
 	ld a, 12
@@ -2134,7 +2133,7 @@ GetMonSpriteTileMapPointerFromRowCount:
 	sub b
 	and a
 	jr z, .done
-	ld de, 20
+	ld de, SCREEN_WIDTH
 .loop
 	add hl, de
 	dec a
@@ -2188,8 +2187,8 @@ AnimCopyRowRight:
 	jr nz, AnimCopyRowRight
 	ret
 
-; get the sound of the move id in b
-GetMoveSoundB:
+; only used by the unreferenced PlayIntroMoveSound
+GetIntroMoveSound:
 	ld a, b
 	call GetMoveSound
 	ld b, a
@@ -2295,7 +2294,7 @@ CopyTileIDs:
 	dec c
 	jr nz, .columnLoop
 	pop hl
-	ld bc, 20
+	ld bc, SCREEN_WIDTH
 	add hl, bc
 	pop bc
 	dec b
@@ -2409,7 +2408,7 @@ FallingObjects_UpdateOAMEntry:
 	sub b
 	ld [hli], a ; X
 	inc hl
-	ld a, (1 << OAM_X_FLIP)
+	ld a, OAM_XFLIP
 .next2
 	ld [hl], a ; attribute
 	ret
@@ -2599,7 +2598,7 @@ TossBallAnimation:
 
 	ld hl, .PokeBallAnimations
 	; choose which toss animation to use
-	ld a, [wcf91]
+	ld a, [wCurItem]
 	cp POKE_BALL
 	ld b, TOSS_ANIM
 	jr z, .done

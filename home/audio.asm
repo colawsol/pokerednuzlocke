@@ -10,8 +10,8 @@ PlayDefaultMusicFadeOutCurrent::
 ; Fade out the current music and then play the default music.
 	ld c, 10
 	ld d, 0
-	ld a, [wd72e]
-	bit 5, a ; has a battle just ended?
+	ld a, [wStatusFlags4]
+	bit BIT_BATTLE_OVER_OR_BLACKOUT, a
 	jr z, PlayDefaultMusicCommon
 	xor a
 	ld [wLastMusicSoundID], a
@@ -172,7 +172,7 @@ PlaySound::
 	ldh [hSavedROMBank], a
 	ld a, [wAudioROMBank]
 	ldh [hLoadedROMBank], a
-	ld [MBC1RomBank], a
+	ld [rROMB], a
 	cp BANK(Audio1_PlaySound)
 	jr nz, .checkForAudio2
 ; audio 1
@@ -195,7 +195,7 @@ PlaySound::
 .next2
 	ldh a, [hSavedROMBank]
 	ldh [hLoadedROMBank], a
-	ld [MBC1RomBank], a
+	ld [rROMB], a
 	jr .done
 
 .fadeOut
