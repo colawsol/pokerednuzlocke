@@ -3,7 +3,7 @@
 ### A Nuzlocke variant of Pokémon Red, based on the pret/pokered disassembly.
 
 TL;DR: Check RELEASES for specific information on the different versions of this hack.
-       This project is based on pret/pokered commit #5380594 from Dec 3, 2022 ('Use rgbds 0.6.1 (0.6.0 also still works)').
+       This project was started using pret/pokered commit #5380594 from Dec 3, 2022 ('Use rgbds 0.6.1 (0.6.0 also still works)') and is up-to-date with commit #1e99747 Jun 6, 2025 ('Use more audio constants').
 
 This hack started out predominantly as a way for me to learn about coding. I have always enjoyed Pokémon, especially the original Game Boy games, and now also enjoy watching Pokémon-related content online. I have been wanting to learn to code for quite a while and, seeing a lot of streamers performing Nuzlocke challenges but having to self-enforce the rules, I thought trying to create my own hack with hard-coded restrictions would be a motivating project. With the exception of some very basic and "self-taught" HTML knowledge, I started this hack with no previous coding experience (which may be very obvious to those evaluating my work...!), so this has been an interesting challenge.
 
