@@ -339,11 +339,11 @@ SetNuzlockeOptionsFromCursorPositions: ; taken from SetOptionsFromCursorPosition
 .checkEncounterMaps
 	ld a, [wNuzlockeOptionsEncounterMapsCursorX] ; Encounter Maps cursor X coordinate
 	dec a
-	jr z, .encounterMapsLink
-.encounterMapsSplit
+	jr z, .encounterMapsSplit
+.encounterMapsLink
 	set 4, d
 	jr .storeNuzlockeOptions
-.encounterMapsLink
+.encounterMapsSplit
 	res 4, d
 .storeNuzlockeOptions
 	ld a, d
