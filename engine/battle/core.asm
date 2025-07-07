@@ -271,12 +271,12 @@ EnemyRan:
 	jr z, .setEncounter ; jump if EvolutionFlag clear
 	ld hl, wNuzlockeFlags
 	bit 1, [hl] ; check if threw Ball
-	res 1, [hl] ; clear bit
-	jr nz, .setEncounter ; jump if threw Ball
-	jr .skipEncounter
+	jr z, .skipEncounter ; jump if did not throw Ball
 .setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	ld hl, wNuzlockeFlags
 .skipEncounter
+	res 1, [hl] ; clear bit for throwing ball
 	ld hl, WildRanText
 .printText
 	call PrintText
@@ -816,12 +816,12 @@ FaintEnemyPokemon:
 	jr z, .setEncounter ; jump if EvolutionFlag clear
 	ld hl, wNuzlockeFlags
 	bit 1, [hl] ; check if threw Ball
-	res 1, [hl] ; clear bit
-	jr nz, .setEncounter ; jump if threw Ball
-	jr .skipEncounter
+	jr z, .skipEncounter ; jump if did not throw Ball
 .setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	ld hl, wNuzlockeFlags
 .skipEncounter
+	res 1, [hl] ; clear bit for throwing ball
 	call EndLowHealthAlarm
 	ld a, MUSIC_DEFEATED_WILD_MON
 	call PlayBattleVictoryMusic
@@ -1625,12 +1625,12 @@ TryRunningFromBattle:
 	jr z, .setEncounter ; jump if EvolutionFlag clear
 	ld hl, wNuzlockeFlags
 	bit 1, [hl] ; check if threw Ball
-	res 1, [hl] ; clear bit
-	jr nz, .setEncounter ; jump if threw Ball
-	jr .canEscape
+	jr z, .canEscape ; jump if did not throw Ball
 .setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	ld hl, wNuzlockeFlags
 .canEscape
+	res 1, [hl] ; clear bit for throwing ball
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	ld a, $2

@@ -906,12 +906,12 @@ SwitchAndTeleportEffect:
 	jr z, .setEncounter ; jump if EvolutionFlag clear
 	ld hl, wNuzlockeFlags
 	bit 1, [hl] ; check if threw Ball
-	res 1, [hl] ; clear bit
-	jr nz, .setEncounter ; jump if threw Ball
-	jr .skipEncounter
+	jr z, .skipEncounter ; jump if did not throw Ball
 .setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	ld hl, wNuzlockeFlags
 .skipEncounter
+	res 1, [hl] ; clear bit for throwing ball
 	pop af ; to restore af
 .playAnimAndPrintText ; no longer used for jumps but left for clarity
 	push af

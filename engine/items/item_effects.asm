@@ -1653,12 +1653,12 @@ ItemUsePokeDoll:
 	jr z, .setEncounter ; jump if EvolutionFlag clear
 	ld hl, wNuzlockeFlags
 	bit 1, [hl] ; check if threw Ball
-	res 1, [hl] ; clear bit
-	jr nz, .setEncounter ; jump if threw Ball
-	jr .noSetEncounter
+	jr z, .noSetEncounter ; jump if did not throw Ball
 .setEncounter
 	farcall SetEncounter ; set EncounterFlag for corresponding LANDMARK
+	ld hl, wNuzlockeFlags
 .noSetEncounter ; prevents EncounterFlag from being set if escaping from ghost/ghost Marowak
+	res 1, [hl] ; clear bit for throwing ball
 	ld a, $01
 	ld [wEscapedFromBattle], a
 	jp PrintItemUseTextAndRemoveItem
